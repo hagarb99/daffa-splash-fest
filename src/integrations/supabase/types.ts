@@ -118,6 +118,116 @@ export type Database = {
           },
         ]
       }
+      bookings: {
+        Row: {
+          activity_id: string
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          created_at: string
+          expires_at: string | null
+          fawry_ref: string | null
+          id: string
+          persons: number
+          status: Database["public"]["Enums"]["booking_status"]
+          time_slot_id: string
+          total_price: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          activity_id: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          expires_at?: string | null
+          fawry_ref?: string | null
+          id?: string
+          persons: number
+          status?: Database["public"]["Enums"]["booking_status"]
+          time_slot_id: string
+          total_price: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          activity_id?: string
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          expires_at?: string | null
+          fawry_ref?: string | null
+          id?: string
+          persons?: number
+          status?: Database["public"]["Enums"]["booking_status"]
+          time_slot_id?: string
+          total_price?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_activity_id_fkey"
+            columns: ["activity_id"]
+            isOneToOne: false
+            referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_time_slot_id_fkey"
+            columns: ["time_slot_id"]
+            isOneToOne: false
+            referencedRelation: "time_slots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          booking_id: string
+          fawry_reference: string | null
+          id: string
+          processed_at: string
+          provider: string
+          raw_payload: Json | null
+          signature: string | null
+          status: string
+        }
+        Insert: {
+          amount: number
+          booking_id: string
+          fawry_reference?: string | null
+          id?: string
+          processed_at?: string
+          provider?: string
+          raw_payload?: Json | null
+          signature?: string | null
+          status: string
+        }
+        Update: {
+          amount?: number
+          booking_id?: string
+          fawry_reference?: string | null
+          id?: string
+          processed_at?: string
+          provider?: string
+          raw_payload?: Json | null
+          signature?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -138,6 +248,50 @@ export type Database = {
           phone?: string | null
         }
         Relationships: []
+      }
+      time_slots: {
+        Row: {
+          activity_id: string
+          created_at: string
+          end_time: string
+          id: string
+          is_active: boolean
+          reserved_capacity: number
+          slot_date: string
+          start_time: string
+          total_capacity: number
+        }
+        Insert: {
+          activity_id: string
+          created_at?: string
+          end_time: string
+          id?: string
+          is_active?: boolean
+          reserved_capacity?: number
+          slot_date: string
+          start_time: string
+          total_capacity: number
+        }
+        Update: {
+          activity_id?: string
+          created_at?: string
+          end_time?: string
+          id?: string
+          is_active?: boolean
+          reserved_capacity?: number
+          slot_date?: string
+          start_time?: string
+          total_capacity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "time_slots_activity_id_fkey"
+            columns: ["activity_id"]
+            isOneToOne: false
+            referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
