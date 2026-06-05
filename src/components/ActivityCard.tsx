@@ -46,7 +46,7 @@ export function ActivityCard({ activity, index = 0 }: { activity: ActivityCardDa
           </div>
         </div>
         <div className="p-5">
-          <h3 className="font-display text-xl font-bold text-foreground group-hover:text-accent transition-colors">
+          <h3 className="font-display text-xl font-bold text-foreground group-hover:text-accent transition-colors text-[#bb9f63]">
             {pick(activity)}
           </h3>
           {pick(activity, "description") && (
