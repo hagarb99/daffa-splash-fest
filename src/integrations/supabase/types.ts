@@ -14,7 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          phone: string | null
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id: string
+          phone?: string | null
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +43,11 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      activity_category: "morning" | "night"
+      activity_type: "individual" | "group"
+      app_role: "admin" | "user"
+      booking_status: "pending" | "confirmed" | "cancelled" | "expired"
+      sponsor_tier: "platinum" | "gold" | "silver" | "partner"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +174,12 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      activity_category: ["morning", "night"],
+      activity_type: ["individual", "group"],
+      app_role: ["admin", "user"],
+      booking_status: ["pending", "confirmed", "cancelled", "expired"],
+      sponsor_tier: ["platinum", "gold", "silver", "partner"],
+    },
   },
 } as const
