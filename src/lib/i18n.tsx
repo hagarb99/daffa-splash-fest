@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 
 export type Lang = "ar" | "en";
 
-const dict: { ar: Dict; en: Dict } = {
+const dict = {
   ar: {
     brand: "مهرجان دفّة المائي",
     tagline: "تجربة مائية لا تُنسى عبر مصر",
@@ -169,7 +169,7 @@ const dict: { ar: Dict; en: Dict } = {
       rights: "All rights reserved",
     },
   },
-} as const;
+};
 
 type Dict = typeof dict.ar;
 
