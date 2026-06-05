@@ -32,7 +32,9 @@ export const createBooking = createServerFn({ method: "POST" })
     const b = booking;
 
     // Generate signed Fawry checkout URL
-    const origin = process.env.PUBLIC_APP_URL || "";
+    const { getRequestHost, getRequestHeader } = await import("@tanstack/react-start/server");
+    const proto = getRequestHeader("x-forwarded-proto") || "https";
+    const origin = process.env.PUBLIC_APP_URL || `${proto}://${getRequestHost()}`;
     const returnUrl = `${origin}/booking/${b.id}`;
     const url = buildFawryCheckoutUrl({
       merchantRefNumber: b.id,
