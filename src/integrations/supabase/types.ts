@@ -14,6 +14,110 @@ export type Database = {
   }
   public: {
     Tables: {
+      activities: {
+        Row: {
+          category: Database["public"]["Enums"]["activity_category"]
+          cover_image: string | null
+          created_at: string
+          description_ar: string | null
+          description_en: string | null
+          duration_min: number | null
+          group_size: number | null
+          id: string
+          is_active: boolean
+          name_ar: string
+          name_en: string
+          price: number
+          requirements_ar: string | null
+          requirements_en: string | null
+          rules_ar: string | null
+          rules_en: string | null
+          safety_ar: string | null
+          safety_en: string | null
+          slug: string
+          sort_order: number
+          type: Database["public"]["Enums"]["activity_type"]
+          updated_at: string
+        }
+        Insert: {
+          category?: Database["public"]["Enums"]["activity_category"]
+          cover_image?: string | null
+          created_at?: string
+          description_ar?: string | null
+          description_en?: string | null
+          duration_min?: number | null
+          group_size?: number | null
+          id?: string
+          is_active?: boolean
+          name_ar: string
+          name_en: string
+          price?: number
+          requirements_ar?: string | null
+          requirements_en?: string | null
+          rules_ar?: string | null
+          rules_en?: string | null
+          safety_ar?: string | null
+          safety_en?: string | null
+          slug: string
+          sort_order?: number
+          type?: Database["public"]["Enums"]["activity_type"]
+          updated_at?: string
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["activity_category"]
+          cover_image?: string | null
+          created_at?: string
+          description_ar?: string | null
+          description_en?: string | null
+          duration_min?: number | null
+          group_size?: number | null
+          id?: string
+          is_active?: boolean
+          name_ar?: string
+          name_en?: string
+          price?: number
+          requirements_ar?: string | null
+          requirements_en?: string | null
+          rules_ar?: string | null
+          rules_en?: string | null
+          safety_ar?: string | null
+          safety_en?: string | null
+          slug?: string
+          sort_order?: number
+          type?: Database["public"]["Enums"]["activity_type"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      activity_images: {
+        Row: {
+          activity_id: string
+          id: string
+          sort_order: number
+          url: string
+        }
+        Insert: {
+          activity_id: string
+          id?: string
+          sort_order?: number
+          url: string
+        }
+        Update: {
+          activity_id?: string
+          id?: string
+          sort_order?: number
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_images_activity_id_fkey"
+            columns: ["activity_id"]
+            isOneToOne: false
+            referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
