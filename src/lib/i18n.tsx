@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 
 export type Lang = "ar" | "en";
 
-const dict = {
+const dict: { ar: Dict; en: Dict } = {
   ar: {
     brand: "مهرجان دفّة المائي",
     tagline: "تجربة مائية لا تُنسى عبر مصر",
