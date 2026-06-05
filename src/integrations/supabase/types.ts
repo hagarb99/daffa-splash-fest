@@ -184,6 +184,69 @@ export type Database = {
           },
         ]
       }
+      brands: {
+        Row: {
+          category: string | null
+          id: string
+          is_active: boolean
+          logo_url: string
+          name_ar: string
+          name_en: string
+          sort_order: number
+        }
+        Insert: {
+          category?: string | null
+          id?: string
+          is_active?: boolean
+          logo_url: string
+          name_ar: string
+          name_en: string
+          sort_order?: number
+        }
+        Update: {
+          category?: string | null
+          id?: string
+          is_active?: boolean
+          logo_url?: string
+          name_ar?: string
+          name_en?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      cities: {
+        Row: {
+          end_date: string | null
+          id: string
+          image: string | null
+          is_active: boolean
+          name_ar: string
+          name_en: string
+          order_index: number
+          start_date: string | null
+        }
+        Insert: {
+          end_date?: string | null
+          id?: string
+          image?: string | null
+          is_active?: boolean
+          name_ar: string
+          name_en: string
+          order_index?: number
+          start_date?: string | null
+        }
+        Update: {
+          end_date?: string | null
+          id?: string
+          image?: string | null
+          is_active?: boolean
+          name_ar?: string
+          name_en?: string
+          order_index?: number
+          start_date?: string | null
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           amount: number
@@ -246,6 +309,39 @@ export type Database = {
           full_name?: string | null
           id?: string
           phone?: string | null
+        }
+        Relationships: []
+      }
+      sponsors: {
+        Row: {
+          id: string
+          is_active: boolean
+          link: string | null
+          logo_url: string
+          name_ar: string
+          name_en: string
+          sort_order: number
+          tier: Database["public"]["Enums"]["sponsor_tier"]
+        }
+        Insert: {
+          id?: string
+          is_active?: boolean
+          link?: string | null
+          logo_url: string
+          name_ar: string
+          name_en: string
+          sort_order?: number
+          tier: Database["public"]["Enums"]["sponsor_tier"]
+        }
+        Update: {
+          id?: string
+          is_active?: boolean
+          link?: string | null
+          logo_url?: string
+          name_ar?: string
+          name_en?: string
+          sort_order?: number
+          tier?: Database["public"]["Enums"]["sponsor_tier"]
         }
         Relationships: []
       }
