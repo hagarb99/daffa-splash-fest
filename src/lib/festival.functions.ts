@@ -34,7 +34,7 @@ export const getSlots = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     // Lazy-expire stale pendings so availability is fresh
-    await supabaseAdmin.rpc("expire_pending_bookings");
+    await (supabaseAdmin.rpc as unknown as (name: string) => Promise<unknown>)("expire_pending_bookings");
     const { data: slots, error } = await supabaseAdmin
       .from("time_slots")
       .select("id, start_time, end_time, total_capacity, reserved_capacity, slot_date")

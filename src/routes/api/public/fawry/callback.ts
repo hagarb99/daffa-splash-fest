@@ -40,7 +40,7 @@ async function handle(payload: Record<string, unknown>) {
       amount,
       status: orderStatus,
       signature: String(payload.messageSignature || ""),
-      raw_payload: payload,
+      raw_payload: payload as unknown as Record<string, never>,
     },
     { onConflict: "fawry_reference" },
   );
@@ -56,7 +56,7 @@ async function handle(payload: Record<string, unknown>) {
       .eq("id", booking.id)
       .eq("status", "pending");
     if (!cancelErr) {
-      await supabaseAdmin.rpc("expire_pending_bookings"); // safe net
+      await (supabaseAdmin.rpc as unknown as (name: string) => Promise<unknown>)("expire_pending_bookings"); // safe net
       // Direct release: set reserved_capacity -= persons
       const { data: slot } = await supabaseAdmin
         .from("time_slots").select("reserved_capacity").eq("id", booking.time_slot_id).maybeSingle();

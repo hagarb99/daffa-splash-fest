@@ -17,7 +17,7 @@ export const createBooking = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { buildFawryCheckoutUrl } = await import("@/lib/fawry.server");
 
-    const { data: booking, error } = await supabaseAdmin.rpc("reserve_slot", {
+    const { data: booking, error } = await (supabaseAdmin.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: { id: string; total_price: number } | null; error: { message: string } | null }>)("reserve_slot", {
       _slot_id: data.time_slot_id,
       _persons: data.persons,
       _user_id: context.userId,
@@ -25,11 +25,11 @@ export const createBooking = createServerFn({ method: "POST" })
       _contact_phone: data.contact_phone,
       _contact_email: data.contact_email,
     });
-    if (error) {
-      const msg = error.message || "BOOKING_FAILED";
+    if (error || !booking) {
+      const msg = error?.message || "BOOKING_FAILED";
       throw new Error(msg.includes("INSUFFICIENT_CAPACITY") ? "INSUFFICIENT_CAPACITY" : msg);
     }
-    const b = booking as { id: string; total_price: number };
+    const b = booking;
 
     // Generate signed Fawry checkout URL
     const origin = process.env.PUBLIC_APP_URL || "";
