@@ -110,7 +110,7 @@ function ActivityPage() {
               </div>
             )}
             <div>
-              <div className="text-xs uppercase tracking-wider text-muted-foreground">{(t.activity as unknown as { supplier: string }).supplier ?? "Supplier"}</div>
+              <div className="text-xs uppercase tracking-wider text-muted-foreground">{t.sections.supplier}</div>
               <div className="font-display text-lg font-bold text-primary">{activity.supplier_name || "—"}</div>
             </div>
           </div>
