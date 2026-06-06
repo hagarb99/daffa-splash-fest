@@ -51,6 +51,7 @@ function ActivityPage() {
   if (!activity) throw notFound();
 
   const total = (Number(activity.price) * persons).toFixed(2);
+  const hasTwoSuppliers = !!(activity.supplier_name && activity.supplier_name_2);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,9 +61,14 @@ function ActivityPage() {
       return;
     }
     if (!slotId) return toast.error(t.booking.slot);
+    if (hasTwoSuppliers && !supplierChoice) return toast.error(t.sections.supplier);
     setBusy(true);
     try {
-      const res = await bookFn({ data: { time_slot_id: slotId, persons, contact_name: name, contact_phone: phone, contact_email: email } });
+      const res = await bookFn({ data: {
+        time_slot_id: slotId, persons,
+        contact_name: name, contact_phone: phone, contact_email: email,
+        supplier_choice: hasTwoSuppliers ? supplierChoice : (activity.supplier_name ?? undefined),
+      } });
       window.location.href = res.checkout_url;
     } catch (err) {
       const msg = (err as Error).message;
