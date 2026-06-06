@@ -23,7 +23,7 @@ export interface ActivityCardData {
 
 export function ActivityCard({ activity, index = 0 }: { activity: ActivityCardData; index?: number }) {
   const { t, pick } = useLang();
-  const supplierName = activity.supplier_name || (t.activity as unknown as { supplier: string }).supplier;
+  const supplierName = activity.supplier_name || t.sections.supplier;
   const supplierLogo = activity.supplier_logo;
   return (
     <motion.div
