@@ -8,6 +8,7 @@ const BookingInput = z.object({
   contact_name: z.string().min(1).max(120),
   contact_phone: z.string().min(6).max(30),
   contact_email: z.string().email().max(200),
+  supplier_choice: z.string().min(1).max(120).optional(),
 });
 
 export const createBooking = createServerFn({ method: "POST" })
