@@ -11,7 +11,8 @@ import { useLang } from "@/lib/i18n";
 import { useAuth } from "@/hooks/use-auth";
 import { getActivityBySlug, getSlots } from "@/lib/festival.functions";
 import { createBooking } from "@/lib/booking.functions";
-import { Clock, Users, User as UserIcon, ShieldCheck, ListChecks, AlertTriangle } from "lucide-react";
+import { Clock, Users, User as UserIcon, ShieldCheck, ListChecks, AlertTriangle, Store } from "lucide-react";
+import { ActivityGallery } from "@/components/ActivityGallery";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/activities/$slug")({
