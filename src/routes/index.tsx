@@ -18,7 +18,7 @@ const ASWAN_KEYS = ["aswan", "أسوان", "اسوان"];
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Daffa Water Festival — مهرجان دفّة المائي" },
+      { title: "Daffa" },
       { name: "description", content: "Egypt's premier water festival across 8 cities with day-to-night entertainment, water sports, cinema, and cultural shows." },
       { property: "og:title", content: "Daffa Water Festival" },
       { property: "og:description", content: "Eight Egyptian cities. Day-to-night water entertainment." },
