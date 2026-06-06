@@ -21,7 +21,6 @@ export function JoinUs() {
 
   const cards = [
     { icon: Gamepad2, label: t.sections.joinGame },
-    { icon: MapPin, label: t.sections.joinPlace },
     { icon: Building2, label: t.sections.joinCity },
     { icon: Globe2, label: t.sections.joinCountry },
   ];
