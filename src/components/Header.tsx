@@ -67,7 +67,7 @@ export function Header({ transparentOnTop = false }: { transparentOnTop?: boolea
           )}
           <Link to="/event-details" className="hidden sm:block">
             <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-glow">
-              {t.activity.bookNow}
+              {t.activity.book}
             </Button>
           </Link>
         </div>
