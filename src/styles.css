@@ -76,7 +76,7 @@
   --gradient-hero: linear-gradient(135deg, oklch(0.28 0.1 240) 0%, oklch(0.4 0.13 220) 50%, oklch(0.72 0.14 200) 100%);
   --gradient-deep: linear-gradient(180deg, oklch(0.22 0.08 245) 0%, oklch(0.32 0.12 240) 100%);
   --shadow-elegant: 0 25px 60px -25px oklch(0.28 0.1 240 / 0.4);
-  --shadow-glow: 0 0 80px oklch(0.72 0.14 200 / 0.35);
+  --shadow-glow: 0 0 80px oklch(0.71 0.08 78 / 0.45);
 }
 
 .dark {
