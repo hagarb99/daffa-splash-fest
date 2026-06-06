@@ -100,6 +100,21 @@ function ActivityPage() {
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid lg:grid-cols-3 gap-10 flex-1 w-full">
         <div className="lg:col-span-2 space-y-8">
+          {/* Supplier */}
+          <div className="bg-card rounded-2xl p-5 shadow-elegant flex items-center gap-4">
+            {activity.supplier_logo ? (
+              <img src={activity.supplier_logo} alt={activity.supplier_name ?? ""} className="h-14 w-14 rounded-xl object-cover" />
+            ) : (
+              <div className="h-14 w-14 rounded-xl bg-accent/15 flex items-center justify-center text-accent">
+                <Store className="h-7 w-7" />
+              </div>
+            )}
+            <div>
+              <div className="text-xs uppercase tracking-wider text-muted-foreground">{(t.activity as unknown as { supplier: string }).supplier ?? "Supplier"}</div>
+              <div className="font-display text-lg font-bold text-primary">{activity.supplier_name || "—"}</div>
+            </div>
+          </div>
+
           {pick(activity, "rules") && (
             <Block icon={<ListChecks className="h-5 w-5" />} title={t.activity.rules} text={pick(activity, "rules")} />
           )}
@@ -108,6 +123,9 @@ function ActivityPage() {
           )}
           {pick(activity, "requirements") && (
             <Block icon={<AlertTriangle className="h-5 w-5" />} title={t.activity.requirements} text={pick(activity, "requirements")} />
+          )}
+          {activity.images && activity.images.length > 0 && (
+            <ActivityGallery images={activity.images} />
           )}
         </div>
 
