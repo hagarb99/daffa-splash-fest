@@ -5,7 +5,7 @@ export const getActivities = createServerFn({ method: "GET" }).handler(async () 
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data, error } = await supabaseAdmin
     .from("activities")
-    .select("id, slug, name_ar, name_en, description_ar, description_en, duration_min, price, type, group_size, category, cover_image, sort_order")
+    .select("id, slug, name_ar, name_en, description_ar, description_en, duration_min, price, type, group_size, category, cover_image, sort_order, supplier_name, supplier_logo, is_kids, is_show")
     .eq("is_active", true)
     .order("sort_order", { ascending: true });
   if (error) throw new Error(error.message);
@@ -33,7 +33,6 @@ export const getSlots = createServerFn({ method: "GET" })
   .inputValidator((input) => z.object({ activity_id: z.string().uuid(), date: z.string() }).parse(input))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    // Lazy-expire stale pendings so availability is fresh
     await (supabaseAdmin.rpc as unknown as (name: string) => Promise<unknown>)("expire_pending_bookings");
     const { data: slots, error } = await supabaseAdmin
       .from("time_slots")
@@ -63,3 +62,11 @@ export const getBrands = createServerFn({ method: "GET" }).handler(async () => {
   const { data } = await supabaseAdmin.from("brands").select("*").eq("is_active", true).order("sort_order");
   return data ?? [];
 });
+
+export const getSetting = createServerFn({ method: "GET" })
+  .inputValidator((input) => z.object({ key: z.string().min(1).max(100) }).parse(input))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: row } = await supabaseAdmin.from("app_settings").select("value").eq("key", data.key).maybeSingle();
+    return row?.value ?? null;
+  });
