@@ -59,7 +59,7 @@ function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/70 via-primary/60 to-primary/95" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-40 pb-28 md:pt-52 md:pb-40">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <span className="inline-flex items-center gap-2 rounded-full bg-accent/20 backdrop-blur px-4 py-1.5 text-sm font-semibold text-accent-foreground border border-accent/40">
+            <span className="inline-flex items-center gap-2 rounded-full bg-accent/20 backdrop-blur px-4 py-1.5 text-sm font-semibold text-accent-foreground border border-accent/40 bg-slate-300">
               <Sparkles className="h-4 w-4" />
               {t.hero.eyebrow}
             </span>
