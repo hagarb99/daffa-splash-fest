@@ -21,7 +21,6 @@ export function JoinUs() {
 
   const cards = [
     { icon: Gamepad2, label: t.sections.joinGame },
-    { icon: MapPin, label: t.sections.joinPlace },
     { icon: Building2, label: t.sections.joinCity },
     { icon: Globe2, label: t.sections.joinCountry },
   ];
@@ -32,7 +31,7 @@ export function JoinUs() {
         <h2 className="font-display text-4xl md:text-5xl font-bold text-primary">{t.sections.joinTitle}</h2>
         <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">{t.sections.joinSub}</p>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
         {cards.map((c, i) => (
           <motion.div
             key={c.label}
