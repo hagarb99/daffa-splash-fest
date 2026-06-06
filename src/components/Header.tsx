@@ -4,7 +4,9 @@ import { useLang } from "@/lib/i18n";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { Globe, Waves } from "lucide-react";
+import { Globe } from "lucide-react";
+import logoColor from "@/assets/daffa-logo.png.asset.json";
+import logoWhite from "@/assets/daffa-logo-white.png.asset.json";
 
 export function Header({ transparentOnTop = false }: { transparentOnTop?: boolean }) {
   const { t, lang, toggle } = useLang();
@@ -36,11 +38,13 @@ export function Header({ transparentOnTop = false }: { transparentOnTop?: boolea
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
         <Link to="/" className="flex items-center gap-2 group">
-          <Waves className={`h-7 w-7 transition-colors ${solid ? "text-accent" : "text-accent"} group-hover:scale-110 transition-transform`} />
-          <span className={`font-display text-xl font-bold tracking-tight ${solid ? "text-primary" : "text-primary-foreground"}`}>
-            {t.brand}
-          </span>
+          <img
+            src={solid ? logoColor.url : logoWhite.url}
+            alt={t.brand}
+            className="h-12 w-auto object-contain transition-transform group-hover:scale-105"
+          />
         </Link>
+
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
           <Link to="/" className={`transition-colors hover:text-accent ${solid ? "text-foreground" : "text-primary-foreground/90"}`}>{t.nav.home}</Link>
           <Link to="/event-details" className={`transition-colors hover:text-accent ${solid ? "text-foreground" : "text-primary-foreground/90"}`}>{t.nav.activities}</Link>
