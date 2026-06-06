@@ -38,6 +38,7 @@ function ActivityPage() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [supplierChoice, setSupplierChoice] = useState<string>("");
   const [busy, setBusy] = useState(false);
 
   const { data: slots = [] } = useQuery({
