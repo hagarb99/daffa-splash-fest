@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useLang } from "@/lib/i18n";
-import { Clock, Users, User as UserIcon } from "lucide-react";
+import { Clock, Users, User as UserIcon, Store } from "lucide-react";
 import { motion } from "framer-motion";
 
 export interface ActivityCardData {
@@ -15,10 +15,16 @@ export interface ActivityCardData {
   group_size: number | null;
   category: "morning" | "night";
   cover_image: string | null;
+  supplier_name?: string | null;
+  supplier_logo?: string | null;
+  is_kids?: boolean | null;
+  is_show?: boolean | null;
 }
 
 export function ActivityCard({ activity, index = 0 }: { activity: ActivityCardData; index?: number }) {
   const { t, pick } = useLang();
+  const supplierName = activity.supplier_name || (t.activity as unknown as { supplier: string }).supplier;
+  const supplierLogo = activity.supplier_logo;
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -52,6 +58,17 @@ export function ActivityCard({ activity, index = 0 }: { activity: ActivityCardDa
           {pick(activity, "description") && (
             <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{pick(activity, "description")}</p>
           )}
+          {/* Supplier */}
+          <div className="mt-3 flex items-center gap-2 rounded-lg bg-secondary/60 px-2.5 py-1.5">
+            {supplierLogo ? (
+              <img src={supplierLogo} alt={supplierName} className="h-6 w-6 rounded-full object-cover" loading="lazy" />
+            ) : (
+              <div className="h-6 w-6 rounded-full bg-accent/20 flex items-center justify-center">
+                <Store className="h-3.5 w-3.5 text-accent" />
+              </div>
+            )}
+            <span className="text-xs font-medium text-muted-foreground truncate">{supplierName}</span>
+          </div>
           <div className="mt-4 flex items-center justify-between text-xs">
             <div className="flex items-center gap-3 text-muted-foreground">
               <span className="inline-flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{activity.duration_min} {t.activity.min}</span>
