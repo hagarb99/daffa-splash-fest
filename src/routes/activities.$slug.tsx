@@ -38,6 +38,7 @@ function ActivityPage() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [supplierChoice, setSupplierChoice] = useState<string>("");
   const [busy, setBusy] = useState(false);
 
   const { data: slots = [] } = useQuery({
@@ -50,6 +51,7 @@ function ActivityPage() {
   if (!activity) throw notFound();
 
   const total = (Number(activity.price) * persons).toFixed(2);
+  const hasTwoSuppliers = !!(activity.supplier_name && activity.supplier_name_2);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,9 +61,14 @@ function ActivityPage() {
       return;
     }
     if (!slotId) return toast.error(t.booking.slot);
+    if (hasTwoSuppliers && !supplierChoice) return toast.error(t.sections.supplier);
     setBusy(true);
     try {
-      const res = await bookFn({ data: { time_slot_id: slotId, persons, contact_name: name, contact_phone: phone, contact_email: email } });
+      const res = await bookFn({ data: {
+        time_slot_id: slotId, persons,
+        contact_name: name, contact_phone: phone, contact_email: email,
+        supplier_choice: hasTwoSuppliers ? supplierChoice : (activity.supplier_name ?? undefined),
+      } });
       window.location.href = res.checkout_url;
     } catch (err) {
       const msg = (err as Error).message;
@@ -160,6 +167,36 @@ function ActivityPage() {
               })}
             </div>
           </div>
+          {hasTwoSuppliers && (
+            <div>
+              <Label>{t.sections.supplier}</Label>
+              <div className="grid grid-cols-2 gap-2 mt-1">
+                {[
+                  { name: activity.supplier_name as string, logo: activity.supplier_logo as string | null },
+                  { name: activity.supplier_name_2 as string, logo: activity.supplier_logo_2 as string | null },
+                ].map((sup) => {
+                  const active = supplierChoice === sup.name;
+                  return (
+                    <button
+                      key={sup.name}
+                      type="button"
+                      onClick={() => setSupplierChoice(sup.name)}
+                      className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm text-start transition ${
+                        active ? "border-accent bg-accent/10 text-accent font-semibold" : "border-border hover:border-accent"
+                      }`}
+                    >
+                      {sup.logo ? (
+                        <img src={sup.logo} alt={sup.name} className="h-7 w-7 rounded-full object-cover" />
+                      ) : (
+                        <div className="h-7 w-7 rounded-full bg-accent/15" />
+                      )}
+                      <span className="truncate">{sup.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
           <div>
             <Label>{t.booking.persons}</Label>
             <Input type="number" min={1} max={20} value={persons} onChange={(e) => setPersons(Math.max(1, Number(e.target.value)))} />

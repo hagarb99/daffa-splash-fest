@@ -39,7 +39,9 @@ export type Database = {
           slug: string
           sort_order: number
           supplier_logo: string | null
+          supplier_logo_2: string | null
           supplier_name: string | null
+          supplier_name_2: string | null
           type: Database["public"]["Enums"]["activity_type"]
           updated_at: string
         }
@@ -67,7 +69,9 @@ export type Database = {
           slug: string
           sort_order?: number
           supplier_logo?: string | null
+          supplier_logo_2?: string | null
           supplier_name?: string | null
+          supplier_name_2?: string | null
           type?: Database["public"]["Enums"]["activity_type"]
           updated_at?: string
         }
@@ -95,7 +99,9 @@ export type Database = {
           slug?: string
           sort_order?: number
           supplier_logo?: string | null
+          supplier_logo_2?: string | null
           supplier_name?: string | null
+          supplier_name_2?: string | null
           type?: Database["public"]["Enums"]["activity_type"]
           updated_at?: string
         }
@@ -160,6 +166,7 @@ export type Database = {
           id: string
           persons: number
           status: Database["public"]["Enums"]["booking_status"]
+          supplier_choice: string | null
           time_slot_id: string
           total_price: number
           updated_at: string
@@ -176,6 +183,7 @@ export type Database = {
           id?: string
           persons: number
           status?: Database["public"]["Enums"]["booking_status"]
+          supplier_choice?: string | null
           time_slot_id: string
           total_price: number
           updated_at?: string
@@ -192,6 +200,7 @@ export type Database = {
           id?: string
           persons?: number
           status?: Database["public"]["Enums"]["booking_status"]
+          supplier_choice?: string | null
           time_slot_id?: string
           total_price?: number
           updated_at?: string
