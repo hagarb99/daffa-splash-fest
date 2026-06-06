@@ -14,7 +14,7 @@ export function ActivityGallery({ images }: { images: { url: string; sort_order?
 
   return (
     <div className="bg-card rounded-2xl p-6 shadow-elegant">
-      <h3 className="font-display text-xl font-bold text-primary mb-4">{t.activity.gallery}</h3>
+      <h3 className="font-display text-xl font-bold text-primary mb-4">{t.sections.gallery}</h3>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {images.map((img, i) => (
           <button
