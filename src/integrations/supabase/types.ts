@@ -25,6 +25,8 @@ export type Database = {
           group_size: number | null
           id: string
           is_active: boolean
+          is_kids: boolean
+          is_show: boolean
           name_ar: string
           name_en: string
           price: number
@@ -36,6 +38,8 @@ export type Database = {
           safety_en: string | null
           slug: string
           sort_order: number
+          supplier_logo: string | null
+          supplier_name: string | null
           type: Database["public"]["Enums"]["activity_type"]
           updated_at: string
         }
@@ -49,6 +53,8 @@ export type Database = {
           group_size?: number | null
           id?: string
           is_active?: boolean
+          is_kids?: boolean
+          is_show?: boolean
           name_ar: string
           name_en: string
           price?: number
@@ -60,6 +66,8 @@ export type Database = {
           safety_en?: string | null
           slug: string
           sort_order?: number
+          supplier_logo?: string | null
+          supplier_name?: string | null
           type?: Database["public"]["Enums"]["activity_type"]
           updated_at?: string
         }
@@ -73,6 +81,8 @@ export type Database = {
           group_size?: number | null
           id?: string
           is_active?: boolean
+          is_kids?: boolean
+          is_show?: boolean
           name_ar?: string
           name_en?: string
           price?: number
@@ -84,6 +94,8 @@ export type Database = {
           safety_en?: string | null
           slug?: string
           sort_order?: number
+          supplier_logo?: string | null
+          supplier_name?: string | null
           type?: Database["public"]["Enums"]["activity_type"]
           updated_at?: string
         }
@@ -117,6 +129,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      app_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: string | null
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: string | null
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: string | null
+        }
+        Relationships: []
       }
       bookings: {
         Row: {
