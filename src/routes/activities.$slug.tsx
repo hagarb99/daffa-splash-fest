@@ -67,7 +67,7 @@ function ActivityPage() {
     setBusy(true);
     try {
       const res = await bookFn({ data: {
-        time_slot_id: slotId, persons,
+        time_slot_id: slotId, persons: persons * units,
         contact_name: name, contact_phone: phone, contact_email: email,
         supplier_choice: hasTwoSuppliers ? supplierChoice : (activity.supplier_name ?? undefined),
       } });
