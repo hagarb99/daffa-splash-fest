@@ -35,6 +35,7 @@ function ActivityPage() {
   const [date, setDate] = useState(today);
   const [slotId, setSlotId] = useState<string>("");
   const [persons, setPersons] = useState(1);
+  const [duration, setDuration] = useState<30 | 60>(30);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -50,7 +51,8 @@ function ActivityPage() {
   if (isLoading) return <div className="min-h-screen flex items-center justify-center">…</div>;
   if (!activity) throw notFound();
 
-  const total = (Number(activity.price) * persons).toFixed(2);
+  const units = duration === 60 ? 2 : 1;
+  const total = (Number(activity.price) * persons * units).toFixed(2);
   const hasTwoSuppliers = !!(activity.supplier_name && activity.supplier_name_2);
 
   const submit = async (e: React.FormEvent) => {
@@ -65,7 +67,7 @@ function ActivityPage() {
     setBusy(true);
     try {
       const res = await bookFn({ data: {
-        time_slot_id: slotId, persons,
+        time_slot_id: slotId, persons: persons * units,
         contact_name: name, contact_phone: phone, contact_email: email,
         supplier_choice: hasTwoSuppliers ? supplierChoice : (activity.supplier_name ?? undefined),
       } });
@@ -197,6 +199,25 @@ function ActivityPage() {
               </div>
             </div>
           )}
+          <div>
+            <Label>{t.activity.duration}</Label>
+            <div className="grid grid-cols-2 gap-2 mt-1">
+              {([30, 60] as const).map((d) => (
+                <button
+                  key={d}
+                  type="button"
+                  onClick={() => setDuration(d)}
+                  className={`rounded-lg border px-3 py-2 text-sm transition ${
+                    duration === d
+                      ? "border-accent bg-accent/10 text-accent font-semibold"
+                      : "border-border hover:border-accent"
+                  }`}
+                >
+                  {d === 30 ? `30 ${t.activity.min}` : `60 ${t.activity.min}`}
+                </button>
+              ))}
+            </div>
+          </div>
           <div>
             <Label>{t.booking.persons}</Label>
             <Input type="number" min={1} max={20} value={persons} onChange={(e) => setPersons(Math.max(1, Number(e.target.value)))} />
