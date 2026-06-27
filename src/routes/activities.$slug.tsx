@@ -200,6 +200,25 @@ function ActivityPage() {
             </div>
           )}
           <div>
+            <Label>{t.activity.duration}</Label>
+            <div className="grid grid-cols-2 gap-2 mt-1">
+              {([30, 60] as const).map((d) => (
+                <button
+                  key={d}
+                  type="button"
+                  onClick={() => setDuration(d)}
+                  className={`rounded-lg border px-3 py-2 text-sm transition ${
+                    duration === d
+                      ? "border-accent bg-accent/10 text-accent font-semibold"
+                      : "border-border hover:border-accent"
+                  }`}
+                >
+                  {d === 30 ? `30 ${t.activity.min}` : `60 ${t.activity.min}`}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
             <Label>{t.booking.persons}</Label>
             <Input type="number" min={1} max={20} value={persons} onChange={(e) => setPersons(Math.max(1, Number(e.target.value)))} />
           </div>
