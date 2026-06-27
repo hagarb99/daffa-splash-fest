@@ -51,7 +51,8 @@ function ActivityPage() {
   if (isLoading) return <div className="min-h-screen flex items-center justify-center">…</div>;
   if (!activity) throw notFound();
 
-  const total = (Number(activity.price) * persons).toFixed(2);
+  const units = duration === 60 ? 2 : 1;
+  const total = (Number(activity.price) * persons * units).toFixed(2);
   const hasTwoSuppliers = !!(activity.supplier_name && activity.supplier_name_2);
 
   const submit = async (e: React.FormEvent) => {
