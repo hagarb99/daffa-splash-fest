@@ -35,6 +35,7 @@ function ActivityPage() {
   const [date, setDate] = useState(today);
   const [slotId, setSlotId] = useState<string>("");
   const [persons, setPersons] = useState(1);
+  const [duration, setDuration] = useState<30 | 60>(30);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
