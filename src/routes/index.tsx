@@ -7,6 +7,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ActivityCard } from "@/components/ActivityCard";
 import { JoinUs } from "@/components/JoinUs";
+import { PackagesSection } from "@/components/PackagesSection";
 import { Button } from "@/components/ui/button";
 import { useLang } from "@/lib/i18n";
 import { getActivities, getCities, getSponsors, getBrands } from "@/lib/festival.functions";
@@ -121,6 +122,9 @@ function HomePage() {
           {night.map((a, i) => <ActivityCard key={a.slug} activity={a} index={i} />)}
         </div>
       </section>
+
+      {/* PACKAGES */}
+      <PackagesSection />
 
       {/* JOIN US */}
       <JoinUs />

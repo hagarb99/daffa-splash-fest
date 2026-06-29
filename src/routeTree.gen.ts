@@ -13,6 +13,7 @@ import { Route as EventDetailsRouteImport } from './routes/event-details'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PackagesIdRouteImport } from './routes/packages.$id'
 import { Route as BookingIdRouteImport } from './routes/booking.$id'
 import { Route as ActivitiesSlugRouteImport } from './routes/activities.$slug'
 import { Route as ApiPublicFawryCallbackRouteImport } from './routes/api/public/fawry/callback'
@@ -35,6 +36,11 @@ const AdminRoute = AdminRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PackagesIdRoute = PackagesIdRouteImport.update({
+  id: '/packages/$id',
+  path: '/packages/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookingIdRoute = BookingIdRouteImport.update({
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/event-details': typeof EventDetailsRoute
   '/activities/$slug': typeof ActivitiesSlugRoute
   '/booking/$id': typeof BookingIdRoute
+  '/packages/$id': typeof PackagesIdRoute
   '/api/public/fawry/callback': typeof ApiPublicFawryCallbackRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/event-details': typeof EventDetailsRoute
   '/activities/$slug': typeof ActivitiesSlugRoute
   '/booking/$id': typeof BookingIdRoute
+  '/packages/$id': typeof PackagesIdRoute
   '/api/public/fawry/callback': typeof ApiPublicFawryCallbackRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/event-details': typeof EventDetailsRoute
   '/activities/$slug': typeof ActivitiesSlugRoute
   '/booking/$id': typeof BookingIdRoute
+  '/packages/$id': typeof PackagesIdRoute
   '/api/public/fawry/callback': typeof ApiPublicFawryCallbackRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/event-details'
     | '/activities/$slug'
     | '/booking/$id'
+    | '/packages/$id'
     | '/api/public/fawry/callback'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/event-details'
     | '/activities/$slug'
     | '/booking/$id'
+    | '/packages/$id'
     | '/api/public/fawry/callback'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/event-details'
     | '/activities/$slug'
     | '/booking/$id'
+    | '/packages/$id'
     | '/api/public/fawry/callback'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   EventDetailsRoute: typeof EventDetailsRoute
   ActivitiesSlugRoute: typeof ActivitiesSlugRoute
   BookingIdRoute: typeof BookingIdRoute
+  PackagesIdRoute: typeof PackagesIdRoute
   ApiPublicFawryCallbackRoute: typeof ApiPublicFawryCallbackRoute
 }
 
@@ -151,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/packages/$id': {
+      id: '/packages/$id'
+      path: '/packages/$id'
+      fullPath: '/packages/$id'
+      preLoaderRoute: typeof PackagesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/booking/$id': {
       id: '/booking/$id'
       path: '/booking/$id'
@@ -182,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   EventDetailsRoute: EventDetailsRoute,
   ActivitiesSlugRoute: ActivitiesSlugRoute,
   BookingIdRoute: BookingIdRoute,
+  PackagesIdRoute: PackagesIdRoute,
   ApiPublicFawryCallbackRoute: ApiPublicFawryCallbackRoute,
 }
 export const routeTree = rootRouteImport

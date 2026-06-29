@@ -156,7 +156,9 @@ export type Database = {
       }
       bookings: {
         Row: {
-          activity_id: string
+          activity_id: string | null
+          booking_date: string | null
+          booking_time: string | null
           contact_email: string | null
           contact_name: string | null
           contact_phone: string | null
@@ -164,16 +166,20 @@ export type Database = {
           expires_at: string | null
           fawry_ref: string | null
           id: string
+          notes: string | null
+          package_id: string | null
           persons: number
           status: Database["public"]["Enums"]["booking_status"]
           supplier_choice: string | null
-          time_slot_id: string
+          time_slot_id: string | null
           total_price: number
           updated_at: string
           user_id: string
         }
         Insert: {
-          activity_id: string
+          activity_id?: string | null
+          booking_date?: string | null
+          booking_time?: string | null
           contact_email?: string | null
           contact_name?: string | null
           contact_phone?: string | null
@@ -181,16 +187,20 @@ export type Database = {
           expires_at?: string | null
           fawry_ref?: string | null
           id?: string
+          notes?: string | null
+          package_id?: string | null
           persons: number
           status?: Database["public"]["Enums"]["booking_status"]
           supplier_choice?: string | null
-          time_slot_id: string
+          time_slot_id?: string | null
           total_price: number
           updated_at?: string
           user_id: string
         }
         Update: {
-          activity_id?: string
+          activity_id?: string | null
+          booking_date?: string | null
+          booking_time?: string | null
           contact_email?: string | null
           contact_name?: string | null
           contact_phone?: string | null
@@ -198,10 +208,12 @@ export type Database = {
           expires_at?: string | null
           fawry_ref?: string | null
           id?: string
+          notes?: string | null
+          package_id?: string | null
           persons?: number
           status?: Database["public"]["Enums"]["booking_status"]
           supplier_choice?: string | null
-          time_slot_id?: string
+          time_slot_id?: string | null
           total_price?: number
           updated_at?: string
           user_id?: string
@@ -212,6 +224,13 @@ export type Database = {
             columns: ["activity_id"]
             isOneToOne: false
             referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_package_id_fkey"
+            columns: ["package_id"]
+            isOneToOne: false
+            referencedRelation: "packages"
             referencedColumns: ["id"]
           },
           {
@@ -283,6 +302,84 @@ export type Database = {
           name_en?: string
           order_index?: number
           start_date?: string | null
+        }
+        Relationships: []
+      }
+      package_activities: {
+        Row: {
+          activity_id: string
+          created_at: string
+          id: string
+          package_id: string
+          position: number
+        }
+        Insert: {
+          activity_id: string
+          created_at?: string
+          id?: string
+          package_id: string
+          position?: number
+        }
+        Update: {
+          activity_id?: string
+          created_at?: string
+          id?: string
+          package_id?: string
+          position?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "package_activities_activity_id_fkey"
+            columns: ["activity_id"]
+            isOneToOne: false
+            referencedRelation: "activities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "package_activities_package_id_fkey"
+            columns: ["package_id"]
+            isOneToOne: false
+            referencedRelation: "packages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      packages: {
+        Row: {
+          created_at: string
+          description_ar: string | null
+          description_en: string | null
+          display_order: number
+          id: string
+          is_active: boolean
+          name_ar: string
+          name_en: string
+          price: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description_ar?: string | null
+          description_en?: string | null
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          name_ar: string
+          name_en: string
+          price: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description_ar?: string | null
+          description_en?: string | null
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          name_ar?: string
+          name_en?: string
+          price?: number
+          updated_at?: string
         }
         Relationships: []
       }

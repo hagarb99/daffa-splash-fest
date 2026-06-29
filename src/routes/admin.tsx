@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useLang } from "@/lib/i18n";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ActivitiesAdmin } from "@/components/admin/ActivitiesAdmin";
+import { PackagesAdmin } from "@/components/admin/PackagesAdmin";
 import { TimeSlotsAdmin } from "@/components/admin/TimeSlotsAdmin";
 import { CitiesAdmin } from "@/components/admin/CitiesAdmin";
 import { SponsorsAdmin } from "@/components/admin/SponsorsAdmin";
@@ -35,6 +36,7 @@ function AdminPage() {
           <TabsList className="flex flex-wrap h-auto justify-start">
             <TabsTrigger value="bookings">Bookings</TabsTrigger>
             <TabsTrigger value="activities">Activities</TabsTrigger>
+            <TabsTrigger value="packages">Packages</TabsTrigger>
             <TabsTrigger value="slots">Time Slots</TabsTrigger>
             <TabsTrigger value="cities">Cities</TabsTrigger>
             <TabsTrigger value="sponsors">Sponsors</TabsTrigger>
@@ -46,6 +48,7 @@ function AdminPage() {
           <div className="mt-6">
             <TabsContent value="bookings"><BookingsAdmin /></TabsContent>
             <TabsContent value="activities"><ActivitiesAdmin /></TabsContent>
+            <TabsContent value="packages"><PackagesAdmin /></TabsContent>
             <TabsContent value="slots"><TimeSlotsAdmin /></TabsContent>
             <TabsContent value="cities"><CitiesAdmin /></TabsContent>
             <TabsContent value="sponsors"><SponsorsAdmin /></TabsContent>
