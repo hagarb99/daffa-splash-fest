@@ -18,9 +18,9 @@ const dict = {
     },
     hero: {
       eyebrow: "تجربة المهرجان",
-      title: "Daffa",
+      title: "Daffa Water Festival",
       subtitle:
-        "مجاري مياه مصر الفخمة تحتوي على إمكانات غير مستغلة للترفيه الحديث والسياحة الإقليمية والتكنولوجيا البحرية المستدامة. دفّة تقود هذا التحول.",
+        "أسوان هتعيش أقوى صيف! استعد لـ 5 أيام مليانين ألعاب مائية، مسابقات حماسية، تحديات، وجوايز، في أجواء هتخليك تعيش تجربة مختلفة من أول لحظة لآخر يوم.",
       cta: "احجز تجربتك",
       ctaSecondary: "استكشف الأنشطة",
     },
@@ -123,7 +123,7 @@ const dict = {
       eyebrow: "The Festival Experience",
       title: "Daffa Water Festival",
       subtitle:
-        "Egypt's majestic waterways hold untapped potential for modern entertainment, regional tourism, and sustainable maritime technology. Daffa is steering this transformation.",
+        "Aswan is about to live its hottest summer! Get ready for 5 days packed with water games, thrilling competitions, challenges, and prizes — an unforgettable experience from the first moment to the last day.",
       cta: "Book your experience",
       ctaSecondary: "Explore activities",
     },
