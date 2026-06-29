@@ -42,7 +42,14 @@ function AuthPage() {
         if (error) throw error;
       }
       toast.success("OK");
-      nav({ to: "/" });
+      // Redirect admins to dashboard, others to home
+      const { data: { user: u } } = await supabase.auth.getUser();
+      let goAdmin = false;
+      if (u) {
+        const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", u.id);
+        goAdmin = !!roles?.some((r) => r.role === "admin");
+      }
+      nav({ to: goAdmin ? "/admin" : "/account" });
     } catch (err) {
       toast.error((err as Error).message);
     } finally {
