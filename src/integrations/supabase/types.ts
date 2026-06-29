@@ -157,6 +157,8 @@ export type Database = {
       bookings: {
         Row: {
           activity_id: string
+          booking_date: string | null
+          booking_time: string | null
           contact_email: string | null
           contact_name: string | null
           contact_phone: string | null
@@ -164,6 +166,7 @@ export type Database = {
           expires_at: string | null
           fawry_ref: string | null
           id: string
+          notes: string | null
           package_id: string | null
           persons: number
           status: Database["public"]["Enums"]["booking_status"]
@@ -175,6 +178,8 @@ export type Database = {
         }
         Insert: {
           activity_id: string
+          booking_date?: string | null
+          booking_time?: string | null
           contact_email?: string | null
           contact_name?: string | null
           contact_phone?: string | null
@@ -182,6 +187,7 @@ export type Database = {
           expires_at?: string | null
           fawry_ref?: string | null
           id?: string
+          notes?: string | null
           package_id?: string | null
           persons: number
           status?: Database["public"]["Enums"]["booking_status"]
@@ -193,6 +199,8 @@ export type Database = {
         }
         Update: {
           activity_id?: string
+          booking_date?: string | null
+          booking_time?: string | null
           contact_email?: string | null
           contact_name?: string | null
           contact_phone?: string | null
@@ -200,6 +208,7 @@ export type Database = {
           expires_at?: string | null
           fawry_ref?: string | null
           id?: string
+          notes?: string | null
           package_id?: string | null
           persons?: number
           status?: Database["public"]["Enums"]["booking_status"]

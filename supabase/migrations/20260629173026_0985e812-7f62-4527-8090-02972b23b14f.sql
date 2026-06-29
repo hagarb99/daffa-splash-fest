@@ -1,0 +1,5 @@
+
+ALTER TABLE public.bookings
+  ADD COLUMN IF NOT EXISTS booking_date DATE,
+  ADD COLUMN IF NOT EXISTS booking_time TEXT,
+  ADD COLUMN IF NOT EXISTS notes TEXT;
