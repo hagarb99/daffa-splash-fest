@@ -67,7 +67,7 @@ function HomePage() {
             <h1 className="mt-6 font-display text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] max-w-4xl">
               {t.hero.title}
             </h1>
-            <p className="mt-6 max-w-2xl text-lg md:text-xl text-primary-foreground/85 leading-relaxed">
+            <p className="mt-6 max-w-2xl text-lg md:text-xl text-primary-foreground/85 leading-relaxed whitespace-pre-line">
               {t.hero.subtitle}
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
@@ -197,7 +197,7 @@ function HomePage() {
       <section className="bg-hero text-primary-foreground py-20 text-center">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="font-display text-4xl md:text-5xl font-bold">{t.sections.cta}</h2>
-          <p className="mt-4 text-primary-foreground/80">{t.hero.subtitle}</p>
+          <p className="mt-4 text-primary-foreground/80 whitespace-pre-line">{t.hero.subtitle}</p>
           <Link to="/event-details" className="inline-block mt-8">
             <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 text-base px-10 shadow-glow">
               {t.hero.cta}
