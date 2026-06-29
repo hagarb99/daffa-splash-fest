@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LanguageProvider } from "../lib/i18n";
 import { Toaster } from "../components/ui/sonner";
+import { FloatingCall } from "../components/FloatingCall";
 
 function NotFoundComponent() {
   return (
@@ -126,6 +127,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
         <Outlet />
+        <FloatingCall />
         <Toaster />
       </LanguageProvider>
     </QueryClientProvider>
