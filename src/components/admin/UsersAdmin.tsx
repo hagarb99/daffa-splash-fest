@@ -53,7 +53,7 @@ export function UsersAdmin() {
   };
 
   const revokeRole = async (userId: string, role: string) => {
-    const { error } = await supabase.from("user_roles").delete().eq("user_id", userId).eq("role", role);
+    const { error } = await supabase.from("user_roles").delete().eq("user_id", userId).eq("role", role as Role);
     if (error) return toast.error(error.message);
     toast.success("Role revoked"); load();
   };
