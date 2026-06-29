@@ -26,7 +26,7 @@ export function Footer() {
             <h3 className="font-display text-lg font-bold mb-4 text-accent">
               {lang === "ar" ? "الدعم" : "Support"}
             </h3>
-            <ul className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-x-8 gap-y-3 text-sm text-primary-foreground/85">
+            <ul className="flex flex-col items-start gap-3 text-sm text-primary-foreground/85">
               <li>
                 <a href={`mailto:${email}`} className="inline-flex items-center gap-2 hover:text-accent transition-colors">
                   <Mail className="h-4 w-4" /> {email}
