@@ -96,16 +96,28 @@ function HomePage() {
       {/* SPONSORS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <h2 className="text-center font-display text-3xl md:text-4xl font-bold text-primary mb-10">{t.sections.sponsors}</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="flex flex-wrap justify-center gap-6 max-w-3xl mx-auto">
           {sponsors.map((s) => (
-            <div key={s.id} className="bg-card rounded-2xl p-6 flex flex-col items-center justify-center shadow-elegant hover:shadow-glow transition-all">
-              <img src={s.logo_url} alt={pick(s)} className="max-h-16 object-contain" loading="lazy" />
+            <div key={s.id} className="bg-card rounded-2xl p-8 flex flex-col items-center justify-center shadow-elegant hover:shadow-glow transition-all w-full sm:w-64">
+              <img src={s.logo_url} alt={pick(s)} className="max-h-20 object-contain" loading="lazy" />
               <div className="mt-3 text-xs uppercase tracking-wider text-accent font-semibold">{s.tier}</div>
               <div className="font-semibold text-primary text-sm">{pick(s)}</div>
             </div>
           ))}
         </div>
+        <div className="mt-8 text-center">
+          <a
+            href="https://wa.me/201031416900?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D9%86%D8%B6%D9%85%D8%A7%D9%85%20%D9%84%D9%84%D9%85%D9%87%D8%B1%D8%AC%D8%A7%D9%86"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block font-display text-lg md:text-xl font-bold text-accent underline underline-offset-8 decoration-2 hover:decoration-4 transition-all"
+          >
+            {lang === "ar" ? "كن جزءًا من الحدث وانضم إلينا" : "Be part of the event — join us"}
+          </a>
+        </div>
       </section>
+
+
 
       {/* FEATURED ACTIVITIES */}
       <section id="activities" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
