@@ -4,7 +4,7 @@ import { useLang } from "@/lib/i18n";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { Globe } from "lucide-react";
+import { Globe, User as UserIcon } from "lucide-react";
 import logoColor from "@/assets/daffa-logo.png.asset.json";
 import logoWhite from "@/assets/daffa-logo-white.png.asset.json";
 
