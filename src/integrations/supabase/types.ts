@@ -156,7 +156,7 @@ export type Database = {
       }
       bookings: {
         Row: {
-          activity_id: string
+          activity_id: string | null
           booking_date: string | null
           booking_time: string | null
           contact_email: string | null
@@ -171,13 +171,13 @@ export type Database = {
           persons: number
           status: Database["public"]["Enums"]["booking_status"]
           supplier_choice: string | null
-          time_slot_id: string
+          time_slot_id: string | null
           total_price: number
           updated_at: string
           user_id: string
         }
         Insert: {
-          activity_id: string
+          activity_id?: string | null
           booking_date?: string | null
           booking_time?: string | null
           contact_email?: string | null
@@ -192,13 +192,13 @@ export type Database = {
           persons: number
           status?: Database["public"]["Enums"]["booking_status"]
           supplier_choice?: string | null
-          time_slot_id: string
+          time_slot_id?: string | null
           total_price: number
           updated_at?: string
           user_id: string
         }
         Update: {
-          activity_id?: string
+          activity_id?: string | null
           booking_date?: string | null
           booking_time?: string | null
           contact_email?: string | null
@@ -213,7 +213,7 @@ export type Database = {
           persons?: number
           status?: Database["public"]["Enums"]["booking_status"]
           supplier_choice?: string | null
-          time_slot_id?: string
+          time_slot_id?: string | null
           total_price?: number
           updated_at?: string
           user_id?: string
