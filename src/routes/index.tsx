@@ -105,16 +105,18 @@ function HomePage() {
             </div>
           ))}
         </div>
-        <div className="mt-8 text-center">
+        <div className="mt-8 text-center font-display text-lg md:text-xl font-bold text-primary">
+          {lang === "ar" ? "كن جزءًا من الحدث و" : "Be part of the event — "}
           <a
             href="https://wa.me/201031416900?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D9%86%D8%B6%D9%85%D8%A7%D9%85%20%D9%84%D9%84%D9%85%D9%87%D8%B1%D8%AC%D8%A7%D9%86"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block font-display text-lg md:text-xl font-bold text-accent underline underline-offset-8 decoration-2 hover:decoration-4 transition-all"
+            className="text-accent underline underline-offset-8 decoration-2 hover:decoration-4 transition-all"
           >
-            {lang === "ar" ? "كن جزءًا من الحدث وانضم إلينا" : "Be part of the event — join us"}
+            {lang === "ar" ? "انضم إلينا" : "join us"}
           </a>
         </div>
+
       </section>
 
 
