@@ -200,7 +200,7 @@ function HomePage() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="bg-hero text-primary-foreground py-20 text-center">
+      <section className="bg-hero text-primary-foreground py-20 text-center mb-0">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="font-display text-4xl md:text-5xl font-bold">{t.sections.cta}</h2>
           <p className="mt-4 text-primary-foreground/80 whitespace-pre-line">{t.hero.subtitle}</p>
