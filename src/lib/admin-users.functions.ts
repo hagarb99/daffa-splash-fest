@@ -47,6 +47,8 @@ export const deleteUser = createServerFn({ method: "POST" })
     await assertAdmin(context);
     if (data.user_id === context.userId) throw new Error("Cannot delete yourself");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: target } = await supabaseAdmin.from("user_roles").select("role").eq("user_id", data.user_id).eq("role", "admin").maybeSingle();
+    if (target) throw new Error("Cannot delete an admin user. Revoke admin role first.");
     const { error } = await supabaseAdmin.auth.admin.deleteUser(data.user_id);
     if (error) throw new Error(error.message);
     return { ok: true };
