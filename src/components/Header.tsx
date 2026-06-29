@@ -64,6 +64,15 @@ export function Header({ transparentOnTop = false }: { transparentOnTop?: boolea
               {isAdmin && (
                 <Link to="/admin"><Button variant="outline" size="sm">{t.nav.admin}</Button></Link>
               )}
+              <Link to="/account" title="My account">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={`rounded-full ${solid ? "bg-accent/15 text-accent hover:bg-accent/25" : "bg-primary-foreground/10 text-primary-foreground hover:bg-primary-foreground/20"}`}
+                >
+                  <UserIcon className="h-5 w-5" />
+                </Button>
+              </Link>
               <Button variant="ghost" size="sm" onClick={signOut} className={solid ? "" : "text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"}>{t.nav.signOut}</Button>
             </>
           ) : (
