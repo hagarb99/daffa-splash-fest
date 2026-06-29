@@ -123,6 +123,9 @@ function HomePage() {
         </div>
       </section>
 
+      {/* PACKAGES */}
+      <PackagesSection />
+
       {/* JOIN US */}
       <JoinUs />
 
