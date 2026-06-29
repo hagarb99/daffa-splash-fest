@@ -65,7 +65,7 @@ function HomePage() {
               {t.hero.eyebrow}
             </span>
             <h1 className="mt-6 font-display text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] max-w-4xl">
-              {t.hero.title}
+              Daffa Water <span className="text-accent">Festival</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg md:text-xl text-primary-foreground/85 leading-relaxed whitespace-pre-line">
               {(() => {
