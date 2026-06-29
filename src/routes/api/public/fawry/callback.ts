@@ -55,7 +55,7 @@ async function handle(payload: Record<string, unknown>) {
       .update({ status: "cancelled" })
       .eq("id", booking.id)
       .eq("status", "pending");
-    if (!cancelErr) {
+    if (!cancelErr && booking.time_slot_id) {
       await (supabaseAdmin.rpc as unknown as (name: string) => Promise<unknown>)("expire_pending_bookings"); // safe net
       // Direct release: set reserved_capacity -= persons
       const { data: slot } = await supabaseAdmin
@@ -67,6 +67,7 @@ async function handle(payload: Record<string, unknown>) {
           .eq("id", booking.time_slot_id);
       }
     }
+
   }
 
   return new Response("OK", { status: 200 });
