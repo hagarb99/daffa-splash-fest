@@ -48,6 +48,11 @@ export function Header({ transparentOnTop = false }: { transparentOnTop?: boolea
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
           <Link to="/" className={`transition-colors hover:text-accent ${solid ? "text-foreground" : "text-primary-foreground/90"}`}>{t.nav.home}</Link>
           <Link to="/event-details" className={`transition-colors hover:text-accent ${solid ? "text-foreground" : "text-primary-foreground/90"}`}>{t.nav.activities}</Link>
+          {isAdmin && (
+            <Link to="/admin" className={`transition-colors hover:text-accent font-semibold ${solid ? "text-accent" : "text-accent"}`}>
+              {t.nav.admin}
+            </Link>
+          )}
         </nav>
         <div className="flex items-center gap-2">
           <Button
