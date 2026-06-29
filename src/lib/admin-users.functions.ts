@@ -25,7 +25,7 @@ export const listAllUsers = createServerFn({ method: "GET" })
     const [{ data: roles }, { data: profiles }, { data: bookings }] = await Promise.all([
       supabaseAdmin.from("user_roles").select("user_id, role").in("user_id", ids),
       supabaseAdmin.from("profiles").select("id, full_name, phone").in("id", ids),
-      supabaseAdmin.from("bookings").select("id, user_id, status, total_amount, created_at, activity_id, package_id").in("user_id", ids).order("created_at", { ascending: false }),
+      supabaseAdmin.from("bookings").select("id, user_id, status, total_price, created_at, activity_id, package_id").in("user_id", ids).order("created_at", { ascending: false }),
     ]);
 
     return usersResp.users.map((u) => ({
