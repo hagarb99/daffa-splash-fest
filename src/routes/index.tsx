@@ -68,7 +68,13 @@ function HomePage() {
               {t.hero.title}
             </h1>
             <p className="mt-6 max-w-2xl text-lg md:text-xl text-primary-foreground/85 leading-relaxed whitespace-pre-line">
-              {t.hero.subtitle}
+              {(() => {
+                const [first, ...rest] = t.hero.subtitle.split("\n");
+                return (<>
+                  <strong className="font-bold text-primary-foreground">{first}</strong>
+                  {rest.length ? "\n" + rest.join("\n") : ""}
+                </>);
+              })()}
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
               <Link to="/event-details">
