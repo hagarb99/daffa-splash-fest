@@ -164,7 +164,7 @@ function HomePage() {
                   {isAswan ? (
                     <div className="absolute top-3 end-3 z-10">
                       <span className="rounded-full bg-accent text-accent-foreground px-3 py-1 text-[10px] font-bold uppercase tracking-wider shadow-glow">
-                        ●
+                        {lang === "ar" ? "الآن" : "Now"}
                       </span>
                     </div>
                   ) : (
