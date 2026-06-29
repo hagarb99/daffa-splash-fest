@@ -28,13 +28,13 @@ export function Footer() {
             </h3>
             <ul className="flex flex-col items-start gap-3 text-sm text-primary-foreground/85">
               <li>
-                <a href={`mailto:${email}`} className="inline-flex items-center gap-2 hover:text-accent transition-colors">
-                  <Mail className="h-4 w-4" /> {email}
+                <a href={`mailto:${email}`} className="flex flex-row-reverse items-center justify-end gap-2 hover:text-accent transition-colors">
+                  <Mail className="h-4 w-4" /> <span dir="ltr">{email}</span>
                 </a>
               </li>
               <li>
-                <a href={`tel:+${intl}`} className="inline-flex items-center gap-2 hover:text-accent transition-colors" dir="ltr">
-                  <Phone className="h-4 w-4" /> {phoneDisplay}
+                <a href={`tel:+${intl}`} className="flex flex-row-reverse items-center justify-end gap-2 hover:text-accent transition-colors">
+                  <Phone className="h-4 w-4" /> <span dir="ltr">{phoneDisplay}</span>
                 </a>
               </li>
               <li>
@@ -42,10 +42,9 @@ export function Footer() {
                   href={`https://wa.me/${intl}?text=${waMsg}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 hover:text-accent transition-colors"
-                  dir="ltr"
+                  className="flex flex-row-reverse items-center justify-end gap-2 hover:text-accent transition-colors"
                 >
-                  <MessageCircle className="h-4 w-4" /> WhatsApp: {phoneDisplay}
+                  <MessageCircle className="h-4 w-4" /> <span dir="ltr">WhatsApp: {phoneDisplay}</span>
                 </a>
               </li>
             </ul>
