@@ -59,6 +59,7 @@ export function UsersAdmin() {
   };
 
   const removeUser = async (u: UserRow) => {
+    if (u.roles.includes("admin")) return toast.error("Cannot delete an admin user. Revoke the admin role first.");
     if (!confirm(`Delete user ${u.email}? This removes their bookings too.`)) return;
     try { await del({ data: { user_id: u.id } }); toast.success("User deleted"); load(); }
     catch (e: any) { toast.error(e.message); }
@@ -145,7 +146,9 @@ export function UsersAdmin() {
                   <td className="p-3">
                     <div className="flex gap-1">
                       <Button size="icon" variant="ghost" onClick={() => viewActivity(u)} title="View activity"><Activity className="h-4 w-4" /></Button>
-                      <Button size="icon" variant="ghost" onClick={() => removeUser(u)} title="Delete user"><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                      {!u.roles.includes("admin") && (
+                        <Button size="icon" variant="ghost" onClick={() => removeUser(u)} title="Delete user"><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                      )}
                     </div>
                   </td>
                 </tr>
