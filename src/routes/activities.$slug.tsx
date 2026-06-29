@@ -1,14 +1,16 @@
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useLang } from "@/lib/i18n";
 import { useAuth } from "@/hooks/use-auth";
+import { supabase } from "@/integrations/supabase/client";
 import { getActivityBySlug, getSlots } from "@/lib/festival.functions";
 import { createBooking } from "@/lib/booking.functions";
 import { Clock, Users, User as UserIcon, ShieldCheck, ListChecks, AlertTriangle, Store } from "lucide-react";
@@ -35,12 +37,12 @@ function ActivityPage() {
   const [date, setDate] = useState(today);
   const [slotId, setSlotId] = useState<string>("");
   const [persons, setPersons] = useState(1);
-  const [duration, setDuration] = useState<30 | 60>(30);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [supplierChoice, setSupplierChoice] = useState<string>("");
   const [busy, setBusy] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const { data: slots = [] } = useQuery({
     queryKey: ["slots", activity?.id, date],
@@ -48,15 +50,23 @@ function ActivityPage() {
     enabled: !!activity?.id,
   });
 
+  // Pre-fill from profile when authenticated
+  useEffect(() => {
+    if (!user) return;
+    setEmail((e) => e || user.email || "");
+    supabase.from("profiles").select("full_name,phone").eq("id", user.id).maybeSingle().then(({ data }) => {
+      if (data?.full_name) setName((n) => n || data.full_name || "");
+      if (data?.phone) setPhone((p) => p || data.phone || "");
+    });
+  }, [user]);
+
   if (isLoading) return <div className="min-h-screen flex items-center justify-center">…</div>;
   if (!activity) throw notFound();
 
-  const units = duration === 60 ? 2 : 1;
-  const total = (Number(activity.price) * persons * units).toFixed(2);
+  const total = (Number(activity.price) * persons).toFixed(2);
   const hasTwoSuppliers = !!(activity.supplier_name && activity.supplier_name_2);
 
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const openBooking = () => {
     if (!user) {
       toast.error(t.booking.authRequired);
       navigate({ to: "/auth" });
@@ -64,10 +74,15 @@ function ActivityPage() {
     }
     if (!slotId) return toast.error(t.booking.slot);
     if (hasTwoSuppliers && !supplierChoice) return toast.error(t.sections.supplier);
+    setOpen(true);
+  };
+
+  const confirm = async (e: React.FormEvent) => {
+    e.preventDefault();
     setBusy(true);
     try {
       const res = await bookFn({ data: {
-        time_slot_id: slotId, persons: persons * units,
+        time_slot_id: slotId, persons,
         contact_name: name, contact_phone: phone, contact_email: email,
         supplier_choice: hasTwoSuppliers ? supplierChoice : (activity.supplier_name ?? undefined),
       } });
@@ -109,7 +124,6 @@ function ActivityPage() {
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid lg:grid-cols-3 gap-10 flex-1 w-full">
         <div className="lg:col-span-2 space-y-8">
-          {/* Supplier */}
           <div className="bg-card rounded-2xl p-5 shadow-elegant flex items-center gap-4">
             {activity.supplier_logo ? (
               <img src={activity.supplier_logo} alt={activity.supplier_name ?? ""} className="h-14 w-14 rounded-xl object-cover" />
@@ -138,7 +152,7 @@ function ActivityPage() {
           )}
         </div>
 
-        <form onSubmit={submit} className="bg-card rounded-2xl shadow-elegant p-6 h-fit lg:sticky lg:top-24 space-y-4">
+        <div className="bg-card rounded-2xl shadow-elegant p-6 h-fit lg:sticky lg:top-24 space-y-4">
           <h2 className="font-display text-2xl font-bold text-primary">{t.booking.title}</h2>
           <div>
             <Label>{t.booking.date}</Label>
@@ -162,7 +176,7 @@ function ActivityPage() {
                       "border-border hover:border-accent"
                     }`}
                   >
-                    {s.start_time.slice(0, 5)}
+                    {s.start_time.slice(0, 5)} - {s.end_time.slice(0, 5)}
                     <div className="text-[10px] opacity-70">{disabled ? t.booking.soldOut : `${s.remaining} ${t.booking.remaining}`}</div>
                   </button>
                 );
@@ -200,50 +214,49 @@ function ActivityPage() {
             </div>
           )}
           <div>
-            <Label>{t.activity.duration}</Label>
-            <div className="grid grid-cols-2 gap-2 mt-1">
-              {([30, 60] as const).map((d) => (
-                <button
-                  key={d}
-                  type="button"
-                  onClick={() => setDuration(d)}
-                  className={`rounded-lg border px-3 py-2 text-sm transition ${
-                    duration === d
-                      ? "border-accent bg-accent/10 text-accent font-semibold"
-                      : "border-border hover:border-accent"
-                  }`}
-                >
-                  {d === 30 ? `30 ${t.activity.min}` : `60 ${t.activity.min}`}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div>
             <Label>{t.booking.persons}</Label>
             <Input type="number" min={1} max={20} value={persons} onChange={(e) => setPersons(Math.max(1, Number(e.target.value)))} />
-          </div>
-          <div>
-            <Label>{t.booking.name}</Label>
-            <Input required value={name} onChange={(e) => setName(e.target.value)} />
-          </div>
-          <div>
-            <Label>{t.booking.phone}</Label>
-            <Input required value={phone} onChange={(e) => setPhone(e.target.value)} />
-          </div>
-          <div>
-            <Label>{t.booking.email}</Label>
-            <Input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
           <div className="flex items-center justify-between border-t border-border pt-3">
             <span className="text-sm text-muted-foreground">{t.booking.total}</span>
             <span className="text-xl font-bold text-accent">{total} {t.activity.egp}</span>
           </div>
-          <p className="text-xs text-muted-foreground">{t.booking.reservedNote}</p>
-          <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={busy || !slotId}>
-            {busy ? "…" : t.booking.pay}
+          <Button onClick={openBooking} className="w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={!slotId}>
+            {t.sections.bookNow}
           </Button>
-        </form>
+        </div>
       </section>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t.booking.title}</DialogTitle>
+            <DialogDescription>{t.booking.reservedNote}</DialogDescription>
+          </DialogHeader>
+          <form onSubmit={confirm} className="space-y-3">
+            <div>
+              <Label>{t.booking.name}</Label>
+              <Input required value={name} onChange={(e) => setName(e.target.value)} />
+            </div>
+            <div>
+              <Label>{t.booking.phone}</Label>
+              <Input required value={phone} onChange={(e) => setPhone(e.target.value)} />
+            </div>
+            <div>
+              <Label>{t.booking.email}</Label>
+              <Input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+            <div className="flex items-center justify-between border-t border-border pt-3">
+              <span className="text-sm text-muted-foreground">{t.booking.total}</span>
+              <span className="text-xl font-bold text-accent">{total} {t.activity.egp}</span>
+            </div>
+            <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={busy}>
+              {busy ? "…" : t.booking.pay}
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
