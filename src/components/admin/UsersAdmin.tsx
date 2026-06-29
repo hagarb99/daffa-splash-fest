@@ -146,7 +146,9 @@ export function UsersAdmin() {
                   <td className="p-3">
                     <div className="flex gap-1">
                       <Button size="icon" variant="ghost" onClick={() => viewActivity(u)} title="View activity"><Activity className="h-4 w-4" /></Button>
-                      <Button size="icon" variant="ghost" onClick={() => removeUser(u)} title="Delete user"><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                      {!u.roles.includes("admin") && (
+                        <Button size="icon" variant="ghost" onClick={() => removeUser(u)} title="Delete user"><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                      )}
                     </div>
                   </td>
                 </tr>
