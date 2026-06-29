@@ -59,6 +59,7 @@ export function UsersAdmin() {
   };
 
   const removeUser = async (u: UserRow) => {
+    if (u.roles.includes("admin")) return toast.error("Cannot delete an admin user. Revoke the admin role first.");
     if (!confirm(`Delete user ${u.email}? This removes their bookings too.`)) return;
     try { await del({ data: { user_id: u.id } }); toast.success("User deleted"); load(); }
     catch (e: any) { toast.error(e.message); }
