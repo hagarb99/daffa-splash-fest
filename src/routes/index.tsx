@@ -42,7 +42,7 @@ function HomePage() {
   const { data: brands = [] } = useQuery({ queryKey: ["brands"], queryFn: () => brandsFn() });
 
   const morning = activities.filter((a) => a.category === "morning").slice(0, 8);
-  const night = activities.filter((a) => a.category === "night").slice(0, 9);
+  const night = activities.filter((a) => a.category === "night").slice(0, 12);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
