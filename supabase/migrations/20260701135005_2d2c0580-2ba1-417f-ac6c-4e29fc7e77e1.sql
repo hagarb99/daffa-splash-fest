@@ -1,0 +1,2 @@
+INSERT INTO public.activities (slug, name_ar, name_en, description_ar, description_en, category, type, price, duration_min, sort_order, is_active, cover_image)
+VALUES ('vr-glasses', 'نظارة VR', 'VR Glasses', 'تجربة واقع افتراضي غامرة بأحدث نظارات VR.', 'Immersive virtual reality experience with the latest VR headsets.', 'night', 'individual', 150, 30, 18, true, 'https://images.unsplash.com/photo-1592478411213-6153e4ebc07d?w=1200&q=80');
