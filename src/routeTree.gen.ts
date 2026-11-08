@@ -9,29 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as EventDetailsRouteImport } from './routes/event-details'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AdminRouteImport } from './routes/admin'
-import { Route as AccountRouteImport } from './routes/account'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PackagesIdRouteImport } from './routes/packages.$id'
-import { Route as BookingIdRouteImport } from './routes/booking.$id'
+import { Route as AccountRouteImport } from './routes/account'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as EventDetailsRouteImport } from './routes/event-details'
 import { Route as ActivitiesSlugRouteImport } from './routes/activities.$slug'
+import { Route as BookingIdRouteImport } from './routes/booking.$id'
+import { Route as PackagesIdRouteImport } from './routes/packages.$id'
 import { Route as ApiPublicFawryCallbackRouteImport } from './routes/api/public/fawry/callback'
 
-const EventDetailsRoute = EventDetailsRouteImport.update({
-  id: '/event-details',
-  path: '/event-details',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountRoute = AccountRouteImport.update({
@@ -39,14 +29,24 @@ const AccountRoute = AccountRouteImport.update({
   path: '/account',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PackagesIdRoute = PackagesIdRouteImport.update({
-  id: '/packages/$id',
-  path: '/packages/$id',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventDetailsRoute = EventDetailsRouteImport.update({
+  id: '/event-details',
+  path: '/event-details',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ActivitiesSlugRoute = ActivitiesSlugRouteImport.update({
+  id: '/activities/$slug',
+  path: '/activities/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookingIdRoute = BookingIdRouteImport.update({
@@ -54,9 +54,9 @@ const BookingIdRoute = BookingIdRouteImport.update({
   path: '/booking/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ActivitiesSlugRoute = ActivitiesSlugRouteImport.update({
-  id: '/activities/$slug',
-  path: '/activities/$slug',
+const PackagesIdRoute = PackagesIdRouteImport.update({
+  id: '/packages/$id',
+  path: '/packages/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicFawryCallbackRoute = ApiPublicFawryCallbackRouteImport.update({
@@ -149,25 +149,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/event-details': {
-      id: '/event-details'
-      path: '/event-details'
-      fullPath: '/event-details'
-      preLoaderRoute: typeof EventDetailsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/account': {
@@ -177,18 +163,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/packages/$id': {
-      id: '/packages/$id'
-      path: '/packages/$id'
-      fullPath: '/packages/$id'
-      preLoaderRoute: typeof PackagesIdRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/event-details': {
+      id: '/event-details'
+      path: '/event-details'
+      fullPath: '/event-details'
+      preLoaderRoute: typeof EventDetailsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/activities/$slug': {
+      id: '/activities/$slug'
+      path: '/activities/$slug'
+      fullPath: '/activities/$slug'
+      preLoaderRoute: typeof ActivitiesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/booking/$id': {
@@ -198,11 +198,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookingIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/activities/$slug': {
-      id: '/activities/$slug'
-      path: '/activities/$slug'
-      fullPath: '/activities/$slug'
-      preLoaderRoute: typeof ActivitiesSlugRouteImport
+    '/packages/$id': {
+      id: '/packages/$id'
+      path: '/packages/$id'
+      fullPath: '/packages/$id'
+      preLoaderRoute: typeof PackagesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/fawry/callback': {
