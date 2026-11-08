@@ -52,10 +52,12 @@ function PackageBookingPage() {
     }
     setBusy(true);
     try {
-      const res = await bookFn({ data: {
-        package_id: pkg.id, persons, booking_date: date, booking_time: time,
-        contact_name: name, contact_phone: phone, contact_email: email, notes: notes || undefined,
-      }});
+      const res = await bookFn({
+        data: {
+          package_id: pkg.id, persons, booking_date: date, booking_time: time,
+          contact_name: name, contact_phone: phone, contact_email: email, notes: notes || undefined,
+        }
+      });
       window.location.href = res.checkout_url;
     } catch (err) {
       toast.error((err as Error).message);
@@ -82,15 +84,17 @@ function PackageBookingPage() {
           <div className="bg-card rounded-2xl p-6 shadow-elegant">
             <h2 className="font-display text-2xl font-bold text-primary mb-4">{t.sections.included}</h2>
             <ul className="space-y-3">
-              {pkg.activities.map((a) => (
-                <li key={a.id} className="flex items-center gap-3 py-2 border-b border-border last:border-0">
-                  <div className="h-8 w-8 rounded-full bg-accent/15 flex items-center justify-center text-accent shrink-0">
-                    <Check className="h-4 w-4" />
-                  </div>
-                  <span className="font-medium text-foreground flex-1">{pick(a)}</span>
-                  <span className="text-sm text-muted-foreground">{Number(a.price).toFixed(0)} {t.activity.egp}</span>
-                </li>
-              ))}
+                {
+                  pkg.activities.map((a: any) => (
+                    <li key={a.id} className="flex items-center gap-3 py-2 border-b border-border last:border-0">
+                      <div className="h-8 w-8 rounded-full bg-accent/15 flex items-center justify-center text-accent shrink-0">
+                        <Check className="h-4 w-4" />
+                      </div>
+                      <span className="font-medium text-foreground flex-1">{pick(a)}</span>
+                      <span className="text-sm text-muted-foreground">{Number(a.price).toFixed(0)} {t.activity.egp}</span>
+                    </li>
+                  ))
+                }
             </ul>
             <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
               <span className="text-sm text-muted-foreground">{t.sections.packagePrice}</span>

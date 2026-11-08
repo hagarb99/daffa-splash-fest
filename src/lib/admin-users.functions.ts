@@ -42,7 +42,7 @@ export const listAllUsers = createServerFn({ method: "GET" })
 
 export const deleteUser = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((i) => z.object({ user_id: z.string().uuid() }).parse(i))
+  .validator((i) => z.object({ user_id: z.string().uuid() }).parse(i))
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     if (data.user_id === context.userId) throw new Error("Cannot delete yourself");
@@ -56,7 +56,7 @@ export const deleteUser = createServerFn({ method: "POST" })
 
 export const getUserActivity = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((i) => z.object({ user_id: z.string().uuid() }).parse(i))
+  .validator((i) => z.object({ user_id: z.string().uuid() }).parse(i))
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");

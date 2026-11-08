@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 type Filter = "all" | "group" | "individual" | "kids" | "shows" | "morning" | "night";
 
 export const Route = createFileRoute("/event-details")({
+  loader: async () => ({ activities: await getActivities() }),
   head: () => ({
     meta: [
       { title: "Festival Activities — Daffa Water Festival" },
@@ -22,9 +23,14 @@ export const Route = createFileRoute("/event-details")({
 });
 
 function EventDetailsPage() {
+  const loaderData = Route.useLoaderData();
   const { t } = useLang();
   const fn = useServerFn(getActivities);
-  const { data = [] } = useQuery({ queryKey: ["activities"], queryFn: () => fn() });
+  const { data = loaderData?.activities ?? [] } = useQuery({
+    queryKey: ["activities"],
+    queryFn: () => fn(),
+    initialData: loaderData?.activities,
+  });
   const [filter, setFilter] = useState<Filter>("all");
 
   const filtered = data.filter((a) => {
@@ -68,6 +74,7 @@ function EventDetailsPage() {
             </Button>
           ))}
         </div>
+
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filtered.map((a, i) => <ActivityCard key={a.slug} activity={a} index={i} />)}
         </div>

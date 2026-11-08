@@ -17,6 +17,15 @@ import heroAswan from "@/assets/hero-aswan.jpg.asset.json";
 const ASWAN_KEYS = ["aswan", "أسوان", "اسوان"];
 
 export const Route = createFileRoute("/")({
+  loader: async () => {
+    const [activities, sponsors, cities, brands] = await Promise.all([
+      getActivities(),
+      getSponsors(),
+      getCities(),
+      getBrands(),
+    ]);
+    return { activities, sponsors, cities, brands };
+  },
   head: () => ({
     meta: [
       { title: "Daffa" },
@@ -30,19 +39,36 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
+  const loaderData = Route.useLoaderData();
   const { t, lang, pick } = useLang();
   const activitiesFn = useServerFn(getActivities);
   const sponsorsFn = useServerFn(getSponsors);
   const citiesFn = useServerFn(getCities);
   const brandsFn = useServerFn(getBrands);
 
-  const { data: activities = [] } = useQuery({ queryKey: ["activities"], queryFn: () => activitiesFn() });
-  const { data: sponsors = [] } = useQuery({ queryKey: ["sponsors"], queryFn: () => sponsorsFn() });
-  const { data: cities = [] } = useQuery({ queryKey: ["cities"], queryFn: () => citiesFn() });
-  const { data: brands = [] } = useQuery({ queryKey: ["brands"], queryFn: () => brandsFn() });
+  const { data: activities = loaderData?.activities ?? [] } = useQuery({
+    queryKey: ["activities"],
+    queryFn: () => activitiesFn(),
+    initialData: loaderData?.activities,
+  });
+  const { data: sponsors = loaderData?.sponsors ?? [] } = useQuery({
+    queryKey: ["sponsors"],
+    queryFn: () => sponsorsFn(),
+    initialData: loaderData?.sponsors,
+  });
+  const { data: cities = loaderData?.cities ?? [] } = useQuery({
+    queryKey: ["cities"],
+    queryFn: () => citiesFn(),
+    initialData: loaderData?.cities,
+  });
+  const { data: brands = loaderData?.brands ?? [] } = useQuery({
+    queryKey: ["brands"],
+    queryFn: () => brandsFn(),
+    initialData: loaderData?.brands,
+  });
 
-  const morning = activities.filter((a) => a.category === "morning").slice(0, 8);
-  const night = activities.filter((a) => a.category === "night").slice(0, 12);
+  const morning = activities.filter((a) => a.category === "morning");
+  const night = activities.filter((a) => a.category === "night");
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -131,6 +157,7 @@ function HomePage() {
         <h3 className="font-display text-2xl font-bold text-primary mt-12 mb-6 flex items-center gap-3">
           <span className="h-1 w-12 bg-gold rounded-full" /> {t.sections.morning}
         </h3>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {morning.map((a, i) => <ActivityCard key={a.slug} activity={a} index={i} />)}
         </div>
