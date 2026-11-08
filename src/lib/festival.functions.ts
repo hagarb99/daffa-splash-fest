@@ -61,7 +61,7 @@ export const getActivities = createServerFn({ method: "GET" }).handler(async () 
 });
 
 export const getActivityBySlug = createServerFn({ method: "GET" })
-  .validator((input) => z.object({ slug: z.string().min(1).max(100) }).parse(input))
+  .inputValidator((input) => z.object({ slug: z.string().min(1).max(100) }).parse(input))
   .handler(async ({ data }) => {
     if (data.slug === "sushi-boat") {
       return {
@@ -148,7 +148,7 @@ export const getActivityBySlug = createServerFn({ method: "GET" })
   });
 
 export const getSlots = createServerFn({ method: "GET" })
-  .validator((input) => z.object({ activity_id: z.string().uuid(), date: z.string() }).parse(input))
+  .inputValidator((input) => z.object({ activity_id: z.string().uuid(), date: z.string() }).parse(input))
   .handler(async ({ data }) => {
     if (data.activity_id === "99999999-9999-9999-9999-999999999999" || data.activity_id === "88888888-8888-8888-8888-888888888888") {
       return [
@@ -188,7 +188,7 @@ export const getBrands = createServerFn({ method: "GET" }).handler(async () => {
 });
 
 export const getSetting = createServerFn({ method: "GET" })
-  .validator((input) => z.object({ key: z.string().min(1).max(100) }).parse(input))
+  .inputValidator((input) => z.object({ key: z.string().min(1).max(100) }).parse(input))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: row } = await supabaseAdmin.from("app_settings").select("value").eq("key", data.key).maybeSingle();

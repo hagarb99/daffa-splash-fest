@@ -49,7 +49,7 @@ export const getPackages = createServerFn({ method: "GET" }).handler(async () =>
 });
 
 export const getPackageById = createServerFn({ method: "GET" })
-  .validator((input) => z.object({ id: z.string().uuid() }).parse(input))
+  .inputValidator((input) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: pkg, error } = await supabaseAdmin
@@ -84,7 +84,7 @@ const PackageBookingInput = z.object({
 
 export const createPackageBooking = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .validator((input) => PackageBookingInput.parse(input))
+  .inputValidator((input) => PackageBookingInput.parse(input))
   .handler(async ({ data, context }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { buildFawryCheckoutUrl } = await import("@/lib/fawry.server");

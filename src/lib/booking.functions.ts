@@ -13,7 +13,7 @@ const BookingInput = z.object({
 
 export const createBooking = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .validator((input) => BookingInput.parse(input))
+  .inputValidator((input) => BookingInput.parse(input))
   .handler(async ({ data, context }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { buildFawryCheckoutUrl } = await import("@/lib/fawry.server");
@@ -52,7 +52,7 @@ export const createBooking = createServerFn({ method: "POST" })
 
 export const getMyBooking = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .validator((input) => z.object({ id: z.string().uuid() }).parse(input))
+  .inputValidator((input) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: row, error } = await supabaseAdmin
