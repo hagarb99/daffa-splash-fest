@@ -75,9 +75,7 @@ export function Header({ transparentOnTop = false }: { transparentOnTop?: boolea
               </Link>
               <Button variant="ghost" size="sm" onClick={signOut} className={solid ? "" : "text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"}>{t.nav.signOut}</Button>
             </>
-          ) : (
-            <Link to="/auth"><Button size="sm" variant={solid ? "default" : "outline"} className={solid ? "" : "bg-transparent border-primary-foreground/60 text-primary-foreground hover:bg-primary-foreground hover:text-primary"}>{t.nav.signIn}</Button></Link>
-          )}
+          ) : null}
           <Link to="/event-details" className="hidden sm:block">
             <Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-glow">
               {t.activity.book}

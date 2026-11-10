@@ -45,11 +45,6 @@ function PackageBookingPage() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) {
-      toast.error(t.booking.authRequired);
-      navigate({ to: "/auth" });
-      return;
-    }
     setBusy(true);
     try {
       const res = await bookFn({

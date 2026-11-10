@@ -41,26 +41,9 @@ const SUSHI_TYPES = [
 ];
 
 const SAUCE_TYPES = [
-  { id: "soy", name_ar: "صويا صوص كلاسيك", name_en: "Classic Soy Sauce" },
-  { id: "spicy-mayo", name_ar: "سبايسي مايو", name_en: "Spicy Mayo" },
-  { id: "teriyaki", name_ar: "ترياكي صوص", name_en: "Sweet Teriyaki Sauce" },
-  { id: "sweet-chili", name_ar: "سويت تشيلي", name_en: "Sweet Chili Sauce" },
-  { id: "sesame", name_ar: "صوص السمسم الياباني", name_en: "Japanese Sesame Sauce" },
-];
-
-const DRAWING_ACTIVITIES = [
-  { id: "canvas", name_ar: "رسم وتلوين على كانفاس", name_en: "Canvas Painting" },
-  { id: "pottery", name_ar: "تلوين مجسمات وفخار", name_en: "Pottery & Figurine Coloring" },
-  { id: "sand-art", name_ar: "فن الرسم بالرمال الملونة", name_en: "Colored Sand Art" },
-  { id: "wood-craft", name_ar: "رسم على خشب وديكور", name_en: "Wooden Craft Painting" },
-  { id: "face-art", name_ar: "رسم وجوه وتلوين حر", name_en: "Face Painting & Free Sketch" },
-];
-
-const COLOR_TYPES = [
-  { id: "watercolors", name_ar: "ألوان مائية آمنة للأطفال", name_en: "Washable Watercolors" },
-  { id: "acrylic", name_ar: "ألوان أكريليك مبهجة", name_en: "Vibrant Acrylic Paints" },
-  { id: "crayons", name_ar: "ألوان شمع وفلوماستر", name_en: "Crayons & Markers" },
-  { id: "pastels", name_ar: "ألوان باستيل ناعمة", name_en: "Soft Pastels" },
+  { id: "spicy-mayo", name_ar: "مايونيز حار", name_en: "Spicy Mayo" },
+  { id: "regular", name_ar: "مايونيز عادي", name_en: "Regular Mayo" },
+  { id: "soy", name_ar: "صويا صوص", name_en: "Soy Sauce" },
 ];
 
 const INSTAPAY_HANDLE = "01031416900";
@@ -117,11 +100,6 @@ function ActivityPage() {
   const [sauceType, setSauceType] = useState(SAUCE_TYPES[0].id);
   const [sushiMode, setSushiMode] = useState<"free_boat" | "paid_boat">("free_boat");
 
-  // Drawing specific state
-  const [selectedDrawingActivity, setSelectedDrawingActivity] = useState(DRAWING_ACTIVITIES[0].id);
-  const [selectedColorType, setSelectedColorType] = useState(COLOR_TYPES[0].id);
-  const [drawingMode, setDrawingMode] = useState<"free_boat" | "paid_boat">("free_boat");
-
   const [copiedInsta, setCopiedInsta] = useState(false);
 
   const totalSushiPieces = Object.values(sushiPieces).reduce((acc, val) => acc + (val || 0), 0);
@@ -162,7 +140,7 @@ function ActivityPage() {
   const sushiUnitPrice = sushiMode === "free_boat" ? 200 : 240;
   const sushiTotal = (sushiUnitPrice * persons).toFixed(0);
 
-  const drawingUnitPrice = drawingMode === "free_boat" ? 150 : 180;
+  const drawingUnitPrice = 150;
   const drawingTotal = (drawingUnitPrice * persons).toFixed(0);
 
   const total = isSushi
@@ -176,11 +154,6 @@ function ActivityPage() {
   const currentSauceObj = SAUCE_TYPES.find((s) => s.id === sauceType) || SAUCE_TYPES[0];
 
   const openBooking = () => {
-    if (!user) {
-      toast.error(t.booking.authRequired);
-      navigate({ to: "/auth" });
-      return;
-    }
     if (!slotId) return toast.error(t.booking.slot);
     if (hasTwoSuppliers && !supplierChoice) return toast.error(t.sections.supplier);
     setOpen(true);
@@ -199,8 +172,7 @@ function ActivityPage() {
     setOpen(true);
   };
 
-  const openDrawingBooking = (mode: "free_boat" | "paid_boat") => {
-    setDrawingMode(mode);
+  const openDrawingBooking = () => {
     setOpen(true);
   };
 
@@ -218,22 +190,12 @@ function ActivityPage() {
     }
 
     if (isDrawing) {
-      const currentDrawingObj = DRAWING_ACTIVITIES.find((d) => d.id === selectedDrawingActivity) || DRAWING_ACTIVITIES[0];
-      const currentColorObj = COLOR_TYPES.find((c) => c.id === selectedColorType) || COLOR_TYPES[0];
-
-      const packageName = drawingMode === "free_boat"
-        ? (isAr ? "حجز ورشة الرسم + مركب مجاني (عرض الـ 30 طفل)" : "Drawing Workshop + Free Boat (30 Limit Offer)")
-        : (isAr ? "حجز ورشة الرسم + سعر المركب (إضافة 30 جنيه)" : "Drawing Workshop + Boat Ticket (+30 EGP)");
-
       const msg = isAr 
         ? `🎨 *حجز نشاط أطفال - مركب الرسم* ⛵\n` +
           `----------------------------------------\n` +
           `📅 *التاريخ:* 19-11\n` +
           `👥 *عدد الأطفال:* ${persons} طفل\n` +
-          `🖌️ *نشاط الرسم:* ${currentDrawingObj.name_ar}\n` +
-          `🎨 *نوع الألوان:* ${currentColorObj.name_ar}\n` +
-          `🎟️ *نوع الباقة:* ${packageName}\n` +
-          `💵 *سعر الطفل:* ${drawingUnitPrice} ج.م\n` +
+          `💵 *سعر الطفل:* 150 ج.م\n` +
           `💰 *المبلغ الإجمالي:* ${drawingTotal} ج.م\n` +
           `----------------------------------------\n` +
           `👤 *اسم ولي الأمر / الطفل:* ${name}\n` +
@@ -245,17 +207,14 @@ function ActivityPage() {
           `----------------------------------------\n` +
           `📅 *Date:* 19-11\n` +
           `👥 *Number of Kids:* ${persons}\n` +
-          `🖌️ *Activity:* ${currentDrawingObj.name_en}\n` +
-          `🎨 *Colors:* ${currentColorObj.name_en}\n` +
-          `🎟️ *Package:* ${packageName}\n` +
-          `💵 *Per Child:* ${drawingUnitPrice} EGP\n` +
+          `💵 *Price per child:* 150 EGP\n` +
           `💰 *Total Amount:* ${drawingTotal} EGP\n` +
           `----------------------------------------\n` +
-          `👤 *Name:* ${name}\n` +
-          `📱 *Phone:* ${phone}\n` +
-          `💳 *Payment:* InstaPay\n` +
+          `👤 *Parent / Child Name:* ${name}\n` +
+          `📱 *Phone Number:* ${phone}\n` +
+          `💳 *Payment Method:* InstaPay\n` +
           `----------------------------------------\n` +
-          `📸 *Attached is the transfer screenshot for confirmation.*`;
+          `📸 *Transfer screenshot attached for confirmation.*`;
 
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
       return;
@@ -563,42 +522,6 @@ function ActivityPage() {
                 </div>
               </div>
 
-              {/* ACTIVITY SELECTION */}
-              <div>
-                <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  {isAr ? "اختيار نشاط ورشة الرسم" : "Select Art Workshop"}
-                </Label>
-                <select
-                  value={selectedDrawingActivity}
-                  onChange={(e) => setSelectedDrawingActivity(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent"
-                >
-                  {DRAWING_ACTIVITIES.map((da) => (
-                    <option key={da.id} value={da.id}>
-                      {isAr ? da.name_ar : da.name_en}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* COLOR TYPE SELECTION */}
-              <div>
-                <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  {isAr ? "اختيار نوع الألوان والخامات" : "Select Colors & Materials"}
-                </Label>
-                <select
-                  value={selectedColorType}
-                  onChange={(e) => setSelectedColorType(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent"
-                >
-                  {COLOR_TYPES.map((ct) => (
-                    <option key={ct.id} value={ct.id}>
-                      {isAr ? ct.name_ar : ct.name_en}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
               {/* KIDS COUNT */}
               <div>
                 <Label>{isAr ? "عدد الأطفال" : "Number of Kids"}</Label>
@@ -617,47 +540,19 @@ function ActivityPage() {
                 <span>{isAr ? "limit للحجز 30 طفل مجاني مركب 🎨⛵" : "Limit 30 kids free boat"}</span>
               </div>
 
-              {/* TWO BOOKING BUTTONS */}
+              {/* SINGLE BOOKING BUTTON: احجز الان */}
               <div className="space-y-3 pt-2 border-t border-border">
-                {/* Button 1: حجز مع مركب مجاني */}
-                <div>
-                  <div className="flex items-center justify-between text-xs mb-1.5">
-                    <span className="text-muted-foreground">{isAr ? "سعر الطفل: 150 ج.م" : "150 EGP / child"}</span>
-                    <span className="font-bold text-accent">{150 * persons} {t.activity.egp}</span>
-                  </div>
-                  <Button
-                    type="button"
-                    onClick={() => openDrawingBooking("free_boat")}
-                    className="w-full bg-accent text-accent-foreground hover:bg-accent/90 font-bold py-5 text-sm"
-                  >
-                    {isAr ? "حجز (ورشة الرسم + مركب مجاني)" : "Book (Drawing + Free Boat)"}
-                  </Button>
+                <div className="flex items-center justify-between text-xs mb-1.5">
+                  <span className="text-muted-foreground">{isAr ? "سعر الطفل: 150 ج.م" : "150 EGP / child"}</span>
+                  <span className="font-bold text-accent">{150 * persons} {t.activity.egp}</span>
                 </div>
-
-                {/* Button 2: تحت زرار حجز الاولاني مكتوب فوقيه حجز ورشة الرسم + سعر المركب اضافه 30 جنيه */}
-                <div className="pt-2 border-t border-dashed border-border/80">
-                  <div className="bg-secondary/80 rounded-lg p-2.5 mb-2 text-xs flex items-center justify-between border border-border">
-                    <div>
-                      <div className="font-bold text-foreground">
-                        {isAr ? "حجز ورشة الرسم + سعر المركب" : "Drawing Booking + Boat Fee"}
-                      </div>
-                      <div className="text-[11px] text-accent font-semibold">
-                        {isAr ? "إضافة 30 جنيه" : "Add 30 EGP per child"}
-                      </div>
-                    </div>
-                    <div className="font-bold text-accent text-sm">
-                      {180 * persons} {t.activity.egp}
-                    </div>
-                  </div>
-                  <Button
-                    type="button"
-                    onClick={() => openDrawingBooking("paid_boat")}
-                    variant="outline"
-                    className="w-full border-accent/60 bg-accent/10 hover:bg-accent/20 text-foreground font-bold py-5 text-sm"
-                  >
-                    {isAr ? "حجز (ورشة الرسم + سعر المركب)" : "Book (Drawing + Boat Ticket)"}
-                  </Button>
-                </div>
+                <Button
+                  type="button"
+                  onClick={openDrawingBooking}
+                  className="w-full bg-accent text-accent-foreground hover:bg-accent/90 font-bold py-5 text-sm"
+                >
+                  {isAr ? "احجز الآن" : "Book Now"}
+                </Button>
               </div>
             </>
           ) : (
@@ -860,24 +755,8 @@ function ActivityPage() {
                   <span className="font-bold text-foreground">{persons}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">{isAr ? "نشاط الرسم:" : "Drawing Activity:"}</span>
-                  <span className="font-bold text-foreground">
-                    {DRAWING_ACTIVITIES.find((d) => d.id === selectedDrawingActivity)?.[isAr ? "name_ar" : "name_en"]}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">{isAr ? "نوع الألوان والخامات:" : "Colors & Materials:"}</span>
-                  <span className="font-bold text-foreground">
-                    {COLOR_TYPES.find((c) => c.id === selectedColorType)?.[isAr ? "name_ar" : "name_en"]}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">{isAr ? "نوع الحجز:" : "Package:"}</span>
-                  <span className="font-bold text-accent">
-                    {drawingMode === "free_boat" 
-                      ? (isAr ? "ورشة الرسم + مركب مجاني (150 ج.م)" : "Drawing + Free Boat (150 EGP)") 
-                      : (isAr ? "ورشة الرسم + سعر المركب (180 ج.م)" : "Drawing + Boat Ticket (180 EGP)")}
-                  </span>
+                  <span className="text-muted-foreground">{isAr ? "سعر التذكرة:" : "Price per child:"}</span>
+                  <span className="font-bold text-accent">150 {isAr ? "ج.م" : "EGP"}</span>
                 </div>
                 <div className="border-t border-border pt-1.5 flex justify-between font-bold text-sm">
                   <span>{isAr ? "المبلغ الإجمالي:" : "Total:"}</span>

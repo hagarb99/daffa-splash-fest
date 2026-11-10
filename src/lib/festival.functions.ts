@@ -124,8 +124,8 @@ export const getActivityBySlug = createServerFn({ method: "GET" })
         rules_en: "• Workshop is designed for kids aged 4 to 14 years.\n• Please arrive 15 minutes before departure with an accompanying guardian.\n• Free boat ride is limited to first 30 kids, regular boat fee applies after (+30 EGP).\n• Protective aprons are provided to keep children's clothes clean.",
         safety_ar: "جميع الألوان والخامات المستخدمة غير سامة وآمنة تماماً للأطفال (Non-toxic). القارب مزود بسترات نجاة مخصصة للأطفال وبإشراف طاقم إنقاذ ومدربين مؤهلين.",
         safety_en: "All colors and craft materials are non-toxic and child-safe. Boats are equipped with certified kids life vests under professional supervision.",
-        requirements_ar: "• اختيار أنشطة وأدوات الرسم.\n• اختيار نوع الألوان.\n• تأكيد الحجز بتحويل إنستاباي وإرسال لقطة الشاشة عبر واتساب.",
-        requirements_en: "• Choose drawing activities and tools.\n• Select preferred color type.\n• Confirm booking via InstaPay transfer and share screenshot on WhatsApp.",
+        requirements_ar: "• تحديد عدد الأطفال.\n• تأكيد الحجز بتحويل إنستاباي وإرسال لقطة الشاشة عبر واتساب.",
+        requirements_en: "• Specify number of kids.\n• Confirm booking via InstaPay transfer and share screenshot on WhatsApp.",
         images: [
           { url: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200&q=80", sort_order: 1 },
           { url: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=1200&q=80", sort_order: 2 },
