@@ -48,6 +48,7 @@ const SAUCE_TYPES = [
 
 const INSTAPAY_HANDLE = "01031416900";
 const INSTAPAY_NAME = "Daffa Water Festival / مهرجان دفة";
+const BIRD_PAYMENT_NUMBER = "01033440023";
 const WHATSAPP_NUMBER = "201031416900";
 
 export const Route = createFileRoute("/activities/$slug")({
@@ -63,6 +64,7 @@ function ActivityPage() {
   const slug = loaderData.slug;
   const isSushi = slug === "sushi-boat";
   const isDrawing = slug === "drawing-boat";
+  const isBirdWatching = slug === "bird-watching";
   const { t, lang, pick } = useLang();
   const isAr = lang === "ar";
   const { user } = useAuth();
@@ -143,11 +145,16 @@ function ActivityPage() {
   const drawingUnitPrice = 150;
   const drawingTotal = (drawingUnitPrice * persons).toFixed(0);
 
+  const birdUnitPrice = 300;
+  const birdTotal = (birdUnitPrice * persons).toFixed(0);
+
   const total = isSushi
     ? sushiTotal
     : isDrawing
       ? drawingTotal
-      : (Number(activity.price) * persons).toFixed(2);
+      : isBirdWatching
+        ? birdTotal
+        : (Number(activity.price) * persons).toFixed(2);
 
   const hasTwoSuppliers = !!(activity.supplier_name && activity.supplier_name_2);
 
@@ -176,16 +183,55 @@ function ActivityPage() {
     setOpen(true);
   };
 
-  const copyInstaPay = () => {
-    navigator.clipboard.writeText(INSTAPAY_HANDLE);
+  const openBirdBooking = () => {
+    setOpen(true);
+  };
+
+  const copyPaymentNumber = (handle: string = INSTAPAY_HANDLE) => {
+    navigator.clipboard.writeText(handle);
     setCopiedInsta(true);
-    toast.success(isAr ? "تم نسخ رقم / معرف إنستاباي!" : "InstaPay handle copied!");
+    toast.success(isAr ? "تم نسخ رقم التحويل!" : "Payment number copied!");
     setTimeout(() => setCopiedInsta(false), 2500);
   };
+
+  const copyInstaPay = () => copyPaymentNumber(INSTAPAY_HANDLE);
 
   const handleWhatsAppConfirmation = () => {
     if (!name.trim() || !phone.trim()) {
       toast.error(isAr ? "يرجى كتابة الاسم ورقم الهاتف للمتابعة" : "Please provide your name and phone number");
+      return;
+    }
+
+    if (isBirdWatching) {
+      const msg = isAr 
+        ? `🔭 *حجز رحلة مشاهدة الطيور مع Aswan Nature* 🦅⛵\n` +
+          `----------------------------------------\n` +
+          `📅 *الموعد:* السبت 21 نوفمبر | الساعة 3:30 عصراً\n` +
+          `📍 *نقطة الانطلاق:* مرسى بجوار حديقة فريال\n` +
+          `👥 *عدد الأفراد:* ${persons} ${persons === 1 ? "فرد" : "أفراد"}\n` +
+          `💵 *سعر الفرد (خصم 50%):* 300 ج.م\n` +
+          `💰 *المبلغ الإجمالي:* ${birdTotal} ج.م\n` +
+          `----------------------------------------\n` +
+          `👤 *الاسم:* ${name}\n` +
+          `📱 *رقم الهاتف:* ${phone}\n` +
+          `💳 *طريقة الدفع:* تم التحويل على رقم: ${BIRD_PAYMENT_NUMBER}\n` +
+          `----------------------------------------\n` +
+          `📸 *مرفق اسكرين شوت إيصال التحويل لتأكيد الحجز على واتساب.*`
+        : `🔭 *Bird Watching Trip Booking with Aswan Nature* 🦅⛵\n` +
+          `----------------------------------------\n` +
+          `📅 *Date:* Saturday 21 Nov | 3:30 PM\n` +
+          `📍 *Meeting Point:* Jetty next to Ferial Garden\n` +
+          `👥 *Number of Persons:* ${persons}\n` +
+          `💵 *Price per person (50% OFF):* 300 EGP\n` +
+          `💰 *Total Amount:* ${birdTotal} EGP\n` +
+          `----------------------------------------\n` +
+          `👤 *Name:* ${name}\n` +
+          `📱 *Phone Number:* ${phone}\n` +
+          `💳 *Payment:* Transferred to ${BIRD_PAYMENT_NUMBER}\n` +
+          `----------------------------------------\n` +
+          `📸 *Transfer screenshot attached for confirmation.*`;
+
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
       return;
     }
 
@@ -555,6 +601,70 @@ function ActivityPage() {
                 </Button>
               </div>
             </>
+          ) : isBirdWatching ? (
+            <>
+              {/* DATE & TIME */}
+              <div>
+                <Label>{t.booking.date}</Label>
+                <div className="mt-1 flex items-center justify-between rounded-lg border border-input bg-muted/40 px-3 py-2 text-sm font-semibold text-foreground">
+                  <span>السبت 21 نوفمبر - 3:30 عصراً</span>
+                  <span className="rounded bg-accent/20 px-2 py-0.5 text-xs text-accent">موعد الرحلة</span>
+                </div>
+              </div>
+
+              {/* MEETING POINT */}
+              <div>
+                <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  {isAr ? "نقطة التجمع والانطلاق" : "Departure Location"}
+                </Label>
+                <div className="mt-1 rounded-lg border border-input bg-muted/40 px-3 py-2 text-xs font-medium text-foreground flex items-center gap-2">
+                  <span>📍</span>
+                  <span>{isAr ? "مرسى بجوار حديقة فريال بأسوان" : "Jetty next to Ferial Garden, Aswan"}</span>
+                </div>
+              </div>
+
+              {/* PERSONS NUMBER (Max 7) */}
+              <div>
+                <Label>{t.booking.persons}</Label>
+                <Input
+                  type="number"
+                  min={1}
+                  max={7}
+                  value={persons}
+                  onChange={(e) => setPersons(Math.max(1, Math.min(7, Number(e.target.value))))}
+                />
+              </div>
+
+              {/* BADGES */}
+              <div className="space-y-1.5">
+                <div className="rounded-xl bg-amber-500/10 border border-amber-500/30 p-2.5 text-xs text-amber-700 dark:text-amber-300 flex items-center gap-1.5 font-medium">
+                  <Sparkles className="h-4 w-4 shrink-0 text-amber-600" />
+                  <span>{isAr ? "خصم حصري 50% بمناسبة انطلاقة دفة 🔥" : "Exclusive 50% discount for Daffa launch"}</span>
+                </div>
+                <div className="rounded-xl bg-blue-500/10 border border-blue-500/30 p-2.5 text-xs text-blue-700 dark:text-blue-300 flex items-center gap-1.5 font-medium">
+                  <Users className="h-4 w-4 shrink-0 text-blue-600" />
+                  <span>{isAr ? "الرحلة بتتحرك باكتمال العدد (7 أفراد) 👥" : "Departs upon full capacity (7 persons)"}</span>
+                </div>
+              </div>
+
+              {/* BOOKING BUTTON */}
+              <div className="space-y-3 pt-2 border-t border-border">
+                <div className="flex items-center justify-between text-xs mb-1.5">
+                  <div className="flex items-center gap-1.5">
+                    <span className="line-through text-muted-foreground text-[11px]">600 ج.م</span>
+                    <span className="font-bold text-accent">{isAr ? "300 ج.م / فرد" : "300 EGP / person"}</span>
+                  </div>
+                  <span className="font-bold text-accent text-sm">{300 * persons} {t.activity.egp}</span>
+                </div>
+                <Button
+                  type="button"
+                  onClick={openBirdBooking}
+                  className="w-full bg-accent text-accent-foreground hover:bg-accent/90 font-bold py-5 text-sm"
+                >
+                  {isAr ? "احجز الآن" : "Book Now"}
+                </Button>
+              </div>
+            </>
           ) : (
             <>
               <div>
@@ -641,10 +751,12 @@ function ActivityPage() {
                 ? (isAr ? "تأكيد حجز مركب سوشي" : "Confirm Sushi Boat Booking") 
                 : isDrawing 
                   ? (isAr ? "تأكيد حجز مركب الرسم للأطفال" : "Confirm Kids Drawing Boat Booking")
-                  : t.booking.title}
+                  : isBirdWatching
+                    ? (isAr ? "تأكيد حجز رحلة مشاهدة الطيور" : "Confirm Bird Watching Booking")
+                    : t.booking.title}
             </DialogTitle>
             <DialogDescription>
-              {isSushi || isDrawing
+              {isSushi || isDrawing || isBirdWatching
                 ? (isAr ? "أدخل بياناتك، أكمل التحويل عبر إنستاباي، وشارك اسكرين التحويل على واتساب للتأكيد." : "Enter your info, pay via InstaPay, and share transfer screenshot on WhatsApp.")
                 : t.booking.reservedNote}
             </DialogDescription>
@@ -797,6 +909,82 @@ function ActivityPage() {
                 </div>
                 <div className="text-[10px] text-muted-foreground">
                   💡 {isAr ? "حوّل المبلغ عبر إنستاباي والتقط اسكرين شوت للإيصال لتأكيد الحجز." : "Transfer via InstaPay and take a screenshot to confirm."}
+                </div>
+              </div>
+
+              {/* WHATSAPP CONFIRMATION BUTTON */}
+              <Button
+                type="button"
+                onClick={handleWhatsAppConfirmation}
+                className="w-full bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold py-5 text-sm flex items-center justify-center gap-2 shadow"
+              >
+                <MessageCircle className="h-4 w-4" />
+                <span>{isAr ? "مشاركة الحجز اسكرين وتساب للتأكيد" : "Share Screenshot on WhatsApp"}</span>
+              </Button>
+            </div>
+          ) : isBirdWatching ? (
+            <div className="space-y-4 pt-1">
+              {/* SUMMARY BOX */}
+              <div className="bg-secondary/60 rounded-xl p-3 border border-border text-xs space-y-1.5">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">{isAr ? "الفعالية:" : "Activity:"}</span>
+                  <span className="font-bold text-foreground">رحلة مشاهدة الطيور (Aswan Nature)</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">{isAr ? "الموعد:" : "Date & Time:"}</span>
+                  <span className="font-bold text-foreground">السبت 21 نوفمبر | 3:30 عصراً</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">{isAr ? "نقطة التحرك:" : "Meeting Point:"}</span>
+                  <span className="font-bold text-foreground">مرسى بجوار حديقة فريال 📍</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">{isAr ? "عدد الأفراد:" : "Persons:"}</span>
+                  <span className="font-bold text-foreground">{persons}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">{isAr ? "سعر التذكرة (خصم 50%):" : "Price (50% OFF):"}</span>
+                  <span className="font-bold text-accent">300 {isAr ? "ج.م" : "EGP"}</span>
+                </div>
+                <div className="border-t border-border pt-1.5 flex justify-between font-bold text-sm">
+                  <span>{isAr ? "المبلغ الإجمالي:" : "Total:"}</span>
+                  <span className="text-accent text-base">{birdTotal} {isAr ? "جنيه مصري" : "EGP"}</span>
+                </div>
+              </div>
+
+              {/* CONTACT INPUTS */}
+              <div className="space-y-2.5">
+                <div>
+                  <Label className="text-xs">{isAr ? "الاسم الكامل *" : "Full Name *"}</Label>
+                  <Input required value={name} onChange={(e) => setName(e.target.value)} placeholder={isAr ? "مثال: أحمد محمود" : "e.g. Ahmed Mahmoud"} className="mt-1" />
+                </div>
+                <div>
+                  <Label className="text-xs">{isAr ? "رقم الهاتف / الواتساب *" : "Phone Number *"}</Label>
+                  <Input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="01012345678" className="mt-1" />
+                </div>
+              </div>
+
+              {/* PAYMENT BOX */}
+              <div className="rounded-xl border-2 border-purple-500/30 bg-purple-950/10 p-3 space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-foreground flex items-center gap-1.5">
+                    <span className="bg-purple-600 text-white px-1.5 py-0.5 rounded text-[10px] font-black">PAY</span>
+                    {isAr ? "الدفع عبر إنستاباي / محفظة" : "Payment via InstaPay / Wallet"}
+                  </span>
+                  <span className="font-black text-purple-600 dark:text-purple-400 text-sm">{birdTotal} ج.م</span>
+                </div>
+                <div className="flex items-center justify-between bg-background rounded-lg p-2.5 border border-purple-500/20">
+                  <div>
+                    <div className="text-[10px] text-muted-foreground">{isAr ? "رقم التحويل للدفع:" : "Transfer payment to:"}</div>
+                    <div className="font-mono text-base font-bold text-foreground tracking-wider" dir="ltr">{BIRD_PAYMENT_NUMBER}</div>
+                  </div>
+                  <Button type="button" size="sm" variant="outline" onClick={() => copyPaymentNumber(BIRD_PAYMENT_NUMBER)} className="h-8 gap-1 border-purple-500/30 text-xs">
+                    {copiedInsta ? <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
+                    {copiedInsta ? (isAr ? "تم النسخ" : "Copied") : (isAr ? "نسخ" : "Copy")}
+                  </Button>
+                </div>
+                <div className="text-[10px] text-muted-foreground">
+                  💡 {isAr ? `حوّل المبلغ على رقم الدفع (${BIRD_PAYMENT_NUMBER}) والتقط اسكرين شوت للإيصال، ثم أرسلها لتأكيد الحجز على واتساب 01031416900.` : `Transfer to ${BIRD_PAYMENT_NUMBER}, take a screenshot, and send it to WhatsApp 01031416900 to confirm.`}
                 </div>
               </div>
 

@@ -50,12 +50,35 @@ export const getActivities = createServerFn({ method: "GET" }).handler(async () 
     is_show: false,
   };
 
+  const birdWatchingActivity = {
+    id: "77777777-7777-7777-7777-777777777777",
+    slug: "bird-watching",
+    name_ar: "رحلة مشاهدة الطيور",
+    name_en: "Bird Watching Trip",
+    description_ar: "رحلة استجمام وتأمل في أحضان طبيعة أسوان بالتعاون مع Aswan Nature بخصم 50% (300 ج.م بس!). جولة لمشاهدة أجمل الطيور النيلية مع توفير مناظير المراقبة.",
+    description_en: "Bird watching and nature immersion trip in Aswan with Aswan Nature at 50% discount (only 300 EGP!). Observe Nile birds with professional binoculars.",
+    duration_min: 90,
+    price: 300,
+    type: "group" as const,
+    group_size: 7,
+    category: "morning" as const,
+    cover_image: "/bird-watching.jpg",
+    sort_order: 2,
+    supplier_name: "Aswan Nature",
+    supplier_logo: null,
+    is_kids: false,
+    is_show: false,
+  };
+
   let list = data ?? [];
   if (!list.some((a) => a.slug === "sushi-boat")) {
     list = [sushiBoatActivity, ...list];
   }
   if (!list.some((a) => a.slug === "drawing-boat")) {
     list = [drawingBoatActivity, ...list];
+  }
+  if (!list.some((a) => a.slug === "bird-watching")) {
+    list = [birdWatchingActivity, ...list];
   }
   return list;
 });
@@ -130,6 +153,41 @@ export const getActivityBySlug = createServerFn({ method: "GET" })
           { url: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200&q=80", sort_order: 1 },
           { url: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=1200&q=80", sort_order: 2 },
           { url: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=1200&q=80", sort_order: 3 }
+        ]
+      };
+    }
+    if (data.slug === "bird-watching") {
+      return {
+        id: "77777777-7777-7777-7777-777777777777",
+        slug: "bird-watching",
+        name_ar: "رحلة مشاهدة الطيور",
+        name_en: "Bird Watching Trip",
+        description_ar: "افصل عن زحمة الدنيا وعيش تجربة استجمام وتأمل في أحضان طبيعة أسوان البكر! 🌿⛵\n\nبمناسبة انطلاقة دفّة، بنعلن عن أول رحلة رسمية لينا بالتعاون مع Aswan Nature بخصم حصري 50% — بـ 300 جنيه بس ! 🔥✨\n\nاستمتع بجولة ساحرة لمشاهدة أجمل أنواع الطيور والمناظر الطبيعية على ضفاف النيل، مع توفير كل أدوات المراقبة زي المناظير عشان تعيش التجربة بكل تفاصيلها. 🔭🦅",
+        description_en: "Disconnect from daily rush and immerse yourself in pristine nature! In celebration of Daffa's launch, we announce our first official bird-watching trip in collaboration with Aswan Nature with an exclusive 50% discount — for only 300 EGP! Enjoy an enchanting tour observing the most beautiful bird species and natural Nile scenery, equipped with professional binoculars. 🔭🦅",
+        category: "morning",
+        type: "group",
+        price: 300,
+        duration_min: 90,
+        group_size: 7,
+        sort_order: 2,
+        is_active: true,
+        is_kids: false,
+        is_show: false,
+        cover_image: "/bird-watching.jpg",
+        supplier_name: "Aswan Nature",
+        supplier_logo: null,
+        supplier_name_2: null,
+        supplier_logo_2: null,
+        rules_ar: "• موعد الرحلة: السبت 21 نوفمبر | التحرك تمام الساعة 3:30 عصراً.\n• نقطة الانطلاق: مرسى بجوار حديقة فريال بأسوان 📍\n• ملحوظة هامة: الرحلة بتتحرك باكتمال العدد (7 أفراد).\n• يتم توفير مناظير المراقبة وجميع الأدوات لجميع المشاركين.",
+        rules_en: "• Schedule: Saturday November 21 | Departure at 3:30 PM sharp.\n• Departure Location: Jetty next to Ferial Garden, Aswan 📍\n• Important Note: Departure requires completing capacity (7 persons).\n• Observation binoculars provided for all participants.",
+        safety_ar: "المركب مجهز بأعلى معايير السلامة وسترات النجاة المعتمدة وتحت إشراف كابتن محترف وفريق Aswan Nature المتخصص لضمان تجربة ممتعة وآمنة.",
+        safety_en: "The boat is equipped with certified life jackets under professional supervision of licensed captains and nature guides from Aswan Nature.",
+        requirements_ar: "• الحضور قبل موعد الانطلاق بـ 15 دقيقة في مرسى حديقة فريال.\n• الدفع المسبق عبر إنستاباي على رقم (01033440023) وإرسال لقطة شاشة التحويل على واتساب (01031416900) لتأكيد الحجز.",
+        requirements_en: "• Please arrive 15 minutes prior to departure at Ferial Garden jetty.\n• Pre-payment via InstaPay / Wallet to (01033440023) and sharing screenshot on WhatsApp (01031416900) to confirm.",
+        images: [
+          { url: "/bird-watching.jpg", sort_order: 1 },
+          { url: "https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=1200&q=80", sort_order: 2 },
+          { url: "https://images.unsplash.com/photo-1549608276-5786777e6587?w=1200&q=80", sort_order: 3 }
         ]
       };
     }
